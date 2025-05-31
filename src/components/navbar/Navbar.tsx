@@ -80,29 +80,32 @@ const Navbar = () => {
 
                 {/* MOBILE NAVIGATION */}
                 <nav
-                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                        }`}
+                    className={`md:hidden absolute left-0 right-0 bg-gray-100 shadow-lg transition-all duration-300 ease-in-out ${
+                        isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                    }`}
                 >
-                    <ul className="flex flex-col gap-4 py-4">
-                        {routes
-                            .filter(route => route.isVisible)
-                            .map(route => (
-                                <li key={route.name}>
-                                    <Link
-                                        href={route.href}
-                                        className="block hover:text-blue-600 transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        {route.name}
-                                    </Link>
+                    <div className="container max-w-screen-xl mx-auto px-4">
+                        <ul className="flex flex-col gap-4 py-4">
+                            {routes
+                                .filter(route => route.isVisible)
+                                .map(route => (
+                                    <li key={route.name}>
+                                        <Link 
+                                            href={route.href} 
+                                            className="block hover:text-blue-600 transition-colors"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            {route.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            {session && (
+                                <li>
+                                    <LogoutButton />
                                 </li>
-                            ))}
-                        {session && (
-                            <li>
-                                <LogoutButton />
-                            </li>
-                        )}
-                    </ul>
+                            )}
+                        </ul>
+                    </div>
                 </nav>
             </div>
         </header>
