@@ -23,11 +23,16 @@ const Navbar = () => {
     return (
         <>
 
-            <div className="bg-black py-3 text-center">
-                <div className="container max-w-screen-xl mx-auto">
-                    <div className="text-white flex items-center justify-center italic font-thin"> <Image className="mr-2" src="/images/banner-icon.png" alt="BannerIcon" width={32} height={32} /> Upgrade Your Mobile Life — Shop the Latest Smartphones at Unbeatable Prices!</div>
+            {session && (
+                <div className="bg-black py-3 text-center">
+                    <div className="container max-w-screen-xl mx-auto">
+                        <div className="text-white flex items-center justify-center italic font-thin">
+                            <Image className="mr-2" src="/images/banner-icon.png" alt="BannerIcon" width={32} height={32} />
+                            Upgrade Your Mobile Life — Shop the Latest Smartphones at Unbeatable Prices!
+                        </div>
+                    </div>
                 </div>
-            </div>
+            )}
 
             <header className="shadow-lg py-3 bg-gray-100 sticky top-0 z-10">
                 <div className="container max-w-screen-xl mx-auto px-4">
