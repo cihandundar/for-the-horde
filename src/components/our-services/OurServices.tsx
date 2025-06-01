@@ -4,6 +4,13 @@ import Image from "next/image";
 
 
 export default function OurServices() {
+
+    type services = {
+        title: string;
+        description: string;
+        image: string;
+    };
+
     const services = [
         {
             title: "Fast & Secure Delivery",
