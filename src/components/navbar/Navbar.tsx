@@ -4,9 +4,11 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import LogoutButton from "../logout/LogoutButton";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
     const { data: session } = useSession();
+    const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const routes = [
@@ -17,12 +19,8 @@ const Navbar = () => {
         { name: "Register", href: "/signup", isVisible: !session },
     ];
 
-
-
-
     return (
         <>
-
             {session && (
                 <div className="bg-black py-3 text-center">
                     <div className="container max-w-screen-xl mx-auto">
@@ -80,7 +78,10 @@ const Navbar = () => {
                                     .filter(route => route.isVisible)
                                     .map(route => (
                                         <li key={route.name}>
-                                            <Link href={route.href} className="hover:text-blue-600 transition-colors">
+                                            <Link
+                                                href={route.href}
+                                                className={`italic hover:font-bold transition-all duration-150 ease-in-out ${pathname === route.href ? 'font-bold' : ''}`}
+                                            >
                                                 {route.name}
                                             </Link>
                                         </li>
@@ -107,7 +108,7 @@ const Navbar = () => {
                                         <li key={route.name}>
                                             <Link
                                                 href={route.href}
-                                                className="block hover:text-blue-600 transition-colors"
+                                                className={`block italic ${pathname === route.href ? 'font-bold' : ''}`}
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 {route.name}

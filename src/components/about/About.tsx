@@ -43,8 +43,10 @@ export default function About() {
 
 
     return (
-        <section className='bg-white py-[60px]'>
+        <section className='bg-white py-[75px]'>
             <div className="container max-w-screen-xl mx-auto">
+                <div className="text-center text-4xl font-bold italic mb-2">About Us</div>
+                <div className="text-center mb-2">Discover who we are, what we stand for, and how we bring the latest in mobile technology to your hands.</div>
                 <div className="flex flex-wrap justify-center">
                     {selectedImages.map((item) => (
                         <div key={item.id} className="lg:w-1/3 md:w-1/2 w-full p-4">
