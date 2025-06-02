@@ -2,12 +2,12 @@
   "name": "for-the-horde",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
+"scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
-  },
+},
   "dependencies": {
     "@prisma/client": "^6.8.2",
     "@reduxjs/toolkit": "^2.8.2",
