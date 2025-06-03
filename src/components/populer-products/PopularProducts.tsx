@@ -32,7 +32,7 @@ export default function PopularProducts(): React.ReactElement {
     return (
         <section className="py-[75px] bg-white sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
-                <div className="text-center text-4xl font-bold italic mb-10 uppercase">Popular Products</div>
+                <div className="text-center text-4xl font-bold  mb-10 uppercase">Popular Products</div>
                 <>
                     {loading && <div className='flex justify-center items-center py-10'><span className="loader"></span></div>}
                     {error && <p>Error: {error}</p>}
@@ -61,10 +61,10 @@ export default function PopularProducts(): React.ReactElement {
                                     <Link href={"/"} className='flex flex-col items-start justify-center shadow-lg rounded-lg py-5 relative'>
                                         <Image src={item?.coverImage} alt={item?.name} width={250} height={250} className='pb-3' />
                                         <div className="pl-5">
-                                            <div className="text-xl font-thin italic">{item?.title}</div>
-                                            <div className="font-bold italic">{item?.name}</div>
+                                            <div className="text-xl font-thin ">{item?.title}</div>
+                                            <div className="font-bold ">{item?.name}</div>
                                             <div className='flex items-center gap-2'> <StarRating rating={item?.rating} /> <span className='font-bold'>{item?.rating} </span></div>
-                                            <div className='italic py-2'>
+                                            <div className=' py-2'>
                                                 {typeof item?.isPriceRange === 'number'
                                                     ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })?.format(item.isPriceRange)
                                                     : item?.isPriceRange}

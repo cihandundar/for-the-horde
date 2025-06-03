@@ -44,10 +44,10 @@ export default function OurServices(): React.ReactElement {
         <section className="py-[75px] bg-white sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
-                    <div className="text-4xl font-bold mb-2 text-center uppercase italic">
+                    <div className="text-4xl font-bold mb-2 text-center uppercase">
                         Our Services
                     </div>
-                    <div className="mb-10 sm:w-2/3 text-center italic">
+                    <div className="mb-10 sm:w-2/3 text-center">
                         We offer fast shipping, secure payment options, and expert customer
                         support to ensure the best shopping experience. Find the latest
                         smartphones at the best prices, all in one place.
@@ -92,10 +92,10 @@ export default function OurServices(): React.ReactElement {
                             height={400}
                         />
                         <div className="text-center flex flex-col items-center">
-                            <div className="text-2xl font-bold italic">
+                            <div className="text-2xl font-bold">
                                 {selectedService.title}
                             </div>
-                            <div className="text-gray-700 leading-relaxed italic sm:w-1/2">
+                            <div className="text-gray-700 leading-relaxed sm:w-1/2">
                                 {selectedService.description}
                             </div>
                         </div>
