@@ -69,7 +69,7 @@ export default function PopularProducts(): React.ReactElement {
                                                     ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })?.format(item.isPriceRange)
                                                     : item?.isPriceRange}
                                             </div>
-                                            <button className='bg-yellow-400 px-10 py-2 font-bold shadow-lg rounded-lg'>View Details</button>
+                                            <button className='bg-yellow-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>View Details</button>
                                         </div>
                                     </Link >
                                 </SwiperSlide>
