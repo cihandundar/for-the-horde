@@ -58,7 +58,7 @@ export default function PopularProducts(): React.ReactElement {
                         >
                             {products?.map((item) => (
                                 <SwiperSlide key={item?.slug}>
-                                    <Link href={"/"} className='flex flex-col items-start justify-center shadow-lg rounded-lg py-5 relative'>
+                                    <Link href={"/"} className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 relative'>
                                         <Image src={item?.coverImage} alt={item?.name} width={250} height={250} className='pb-3' />
                                         <div className="pl-5">
                                             <div className="text-xl font-thin ">{item?.title}</div>
