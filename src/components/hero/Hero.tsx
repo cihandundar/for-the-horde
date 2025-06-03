@@ -1,40 +1,44 @@
-"use client"
-import React from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react';
+"use client";
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-// import required modules
-import { EffectCoverflow, Pagination, Autoplay, Navigation } from 'swiper/modules';
-import Image from 'next/image';
-import Link from 'next/link';
-export default function Hero() {
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
-    type sliderImages = {
-        id: number;
-        src: string;
-        link: string;
-    };
+import {
+    EffectCoverflow,
+    Pagination,
+    Autoplay,
+    Navigation,
+} from "swiper/modules";
 
+import Image from "next/image";
+import Link from "next/link";
 
-    const sliderImages = [
-        { id: 1, src: "/images/hero1.jpg", link: "/signin" },
-        { id: 2, src: "/images/hero2.jpg", link: "/signin" },
-        { id: 3, src: "/images/hero3.jpg", link: "/signin" },
-        { id: 4, src: "/images/hero4.jpg", link: "/signin" },
-        { id: 5, src: "/images/hero5.jpg", link: "/signin" },
-        { id: 6, src: "/images/hero6.jpg", link: "/signin" },
-    ];
+type SliderImage = {
+    id: number;
+    src: string;
+    link: string;
+};
 
+const sliderImages: SliderImage[] = [
+    { id: 1, src: "/images/hero1.jpg", link: "/signin" },
+    { id: 2, src: "/images/hero2.jpg", link: "/signin" },
+    { id: 3, src: "/images/hero3.jpg", link: "/signin" },
+    { id: 4, src: "/images/hero4.jpg", link: "/signin" },
+    { id: 5, src: "/images/hero5.jpg", link: "/signin" },
+    { id: 6, src: "/images/hero6.jpg", link: "/signin" },
+];
 
+export default function Hero(): React.ReactElement {
     return (
         <section>
             <Swiper
-                effect={'coverflow'}
+                className="heroSlider"
+                effect="coverflow"
                 grabCursor={true}
                 centeredSlides={true}
                 slidesPerView={3}
@@ -49,6 +53,7 @@ export default function Hero() {
                     delay: 2500,
                     disableOnInteraction: false,
                 }}
+
                 breakpoints={{
                     0: {
                         slidesPerView: 1,
@@ -61,26 +66,23 @@ export default function Hero() {
                     },
                 }}
                 navigation={true}
-                pagination={true}
+                pagination={{ clickable: true }}
                 loop={true}
                 modules={[EffectCoverflow, Pagination, Autoplay, Navigation]}
-                className="mySwiper"
             >
-                {
-                    sliderImages.map((image) => (
-                        <SwiperSlide key={image.id}>
-                            <Link href={image.link}>
-                                <Image
-                                    src={image.src}
-                                    alt={`Hero ${image.id}`}
-                                    width={1024}
-                                    height={1024}
-                                />
-                            </Link>
-                        </SwiperSlide>
-                    ))
-                }
+                {sliderImages.map((image: SliderImage) => (
+                    <SwiperSlide key={image.id}>
+                        <Link href={image.link}>
+                            <Image
+                                src={image.src}
+                                alt={`Hero ${image.id}`}
+                                width={1024}
+                                height={1024}
+                            />
+                        </Link>
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </section>
-    )
+    );
 }

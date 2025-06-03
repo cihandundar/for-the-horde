@@ -1,17 +1,24 @@
 "use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import LogoutButton from "../logout/LogoutButton";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
+import LogoutButton from "../logout/LogoutButton";
 
-const Navbar = () => {
+type Route = {
+    name: string;
+    href: string;
+    isVisible: boolean;
+};
+
+const Navbar = (): React.ReactElement => {
     const { data: session } = useSession();
     const pathname = usePathname();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-    const routes = [
+    const routes: Route[] = [
         { name: "Home", href: session ? "/home" : "/", isVisible: true },
         { name: "Profile", href: "/profile", isVisible: !!session },
         { name: "Cart", href: "/cart", isVisible: !!session },
@@ -25,7 +32,13 @@ const Navbar = () => {
                 <div className="bg-black py-3 text-center">
                     <div className="container max-w-screen-xl mx-auto">
                         <div className="text-white flex items-center justify-center italic font-thin">
-                            <Image className="mr-2" src="/images/banner-icon.png" alt="BannerIcon" width={32} height={32} />
+                            <Image
+                                className="mr-2"
+                                src="/images/banner-icon.png"
+                                alt="BannerIcon"
+                                width={32}
+                                height={32}
+                            />
                             Upgrade Your Mobile Life — Shop the Latest Smartphones at Unbeatable Prices!
                         </div>
                     </div>
@@ -43,6 +56,7 @@ const Navbar = () => {
                                 height={75}
                             />
                         </Link>
+
                         <button
                             className="md:hidden p-2"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -75,12 +89,13 @@ const Navbar = () => {
                         <nav className="hidden md:block">
                             <ul className="flex gap-6 items-center">
                                 {routes
-                                    .filter(route => route.isVisible)
-                                    .map(route => (
+                                    .filter((route) => route.isVisible)
+                                    .map((route) => (
                                         <li key={route.name}>
                                             <Link
                                                 href={route.href}
-                                                className={`italic hover:font-bold transition-all duration-150 ease-in-out ${pathname === route.href ? 'font-bold' : ''}`}
+                                                className={`italic hover:font-bold transition-all duration-150 ease-in-out ${pathname === route.href ? "font-bold" : ""
+                                                    }`}
                                             >
                                                 {route.name}
                                             </Link>
@@ -97,18 +112,19 @@ const Navbar = () => {
 
                     {/* MOBILE NAVIGATION */}
                     <nav
-                        className={`md:hidden absolute left-0 right-0 bg-gray-100 shadow-lg transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                        className={`md:hidden absolute left-0 right-0 bg-gray-100 shadow-lg transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                             }`}
                     >
                         <div className="container max-w-screen-xl mx-auto px-4">
                             <ul className="flex flex-col gap-4 py-4">
                                 {routes
-                                    .filter(route => route.isVisible)
-                                    .map(route => (
+                                    .filter((route) => route.isVisible)
+                                    .map((route) => (
                                         <li key={route.name}>
                                             <Link
                                                 href={route.href}
-                                                className={`block italic ${pathname === route.href ? 'font-bold' : ''}`}
+                                                className={`block italic ${pathname === route.href ? "font-bold" : ""
+                                                    }`}
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 {route.name}

@@ -6,13 +6,13 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import NextAuthSessionProvider from "../../providers/NextAuthSessionProvider";
 import ToastProvider from "../../providers/ToastProvider";
+import StoreProvider from "./StoreProvider"; // ✅ BURAYA EKLE
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
 });
-
 
 export const metadata: Metadata = {
   title: "For The Horde",
@@ -27,12 +27,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} antialiased`}>
-        <NextAuthSessionProvider>
-          <Navbar />
-          <ToastProvider />
-          {children}
-        </NextAuthSessionProvider>
-        <Footer />
+        <StoreProvider>
+          <NextAuthSessionProvider>
+            <Navbar />
+            <ToastProvider />
+            {children}
+          </NextAuthSessionProvider>
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

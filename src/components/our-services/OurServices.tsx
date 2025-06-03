@@ -1,17 +1,17 @@
 "use client";
-import { useState } from "react";
+
+import React, { useState } from "react";
 import Image from "next/image";
 
+type Service = {
+    title: string;
+    description: string;
+    image: string;
+};
 
-export default function OurServices() {
+export default function OurServices(): React.ReactElement {
 
-    type services = {
-        title: string;
-        description: string;
-        image: string;
-    };
-
-    const services = [
+    const services: Service[] = [
         {
             title: "Fast & Secure Delivery",
             description:
@@ -38,15 +38,22 @@ export default function OurServices() {
         },
     ];
 
-    const [selectedService, setSelectedService] = useState(services[0]);
+    const [selectedService, setSelectedService] = useState<Service>(services[0]);
 
     return (
         <section className="py-[75px] bg-white sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
-                    <div className="text-4xl font-bold mb-2 text-center uppercase italic">Our Services</div>
-                    <div className="mb-10 sm:w-2/3 text-center">We offer fast shipping, secure payment options, and expert customer support to ensure the best shopping experience. Find the latest smartphones at the best prices, all in one place.</div>
+                    <div className="text-4xl font-bold mb-2 text-center uppercase italic">
+                        Our Services
+                    </div>
+                    <div className="mb-10 sm:w-2/3 text-center italic">
+                        We offer fast shipping, secure payment options, and expert customer
+                        support to ensure the best shopping experience. Find the latest
+                        smartphones at the best prices, all in one place.
+                    </div>
                 </div>
+
                 <div className="flex flex-col justify-between items-center relative">
                     <Image
                         className="absolute left-0 lg:block hidden"
@@ -56,8 +63,8 @@ export default function OurServices() {
                         height={400}
                     />
 
-                    <div className="flex gap-4 justify-center mb-10 ">
-                        {services.map((service, index) => (
+                    <div className="flex gap-4 justify-center mb-10">
+                        {services.map((service: Service, index: number) => (
                             <button
                                 key={index}
                                 onClick={() => setSelectedService(service)}
@@ -76,7 +83,8 @@ export default function OurServices() {
                             </button>
                         ))}
                     </div>
-                    <div className="flex  flex-col items-center text-center py-5 shadow-lg border-2 border-gray-100 rounded-lg bg-white">
+
+                    <div className="flex flex-col items-center text-center py-5 shadow-lg border-2 border-gray-100 rounded-lg bg-white">
                         <Image
                             src={selectedService.image}
                             alt={selectedService.title}
@@ -84,12 +92,15 @@ export default function OurServices() {
                             height={400}
                         />
                         <div className="text-center flex flex-col items-center">
-                            <div className="text-2xl font-semibold">{selectedService.title}</div>
-                            <div className="text-gray-700 leading-relaxed sm:w-1/2">
+                            <div className="text-2xl font-bold italic">
+                                {selectedService.title}
+                            </div>
+                            <div className="text-gray-700 leading-relaxed italic sm:w-1/2">
                                 {selectedService.description}
                             </div>
                         </div>
                     </div>
+
                     <Image
                         className="absolute right-0 lg:block hidden"
                         src="/images/bottom-arrow.png"
@@ -97,10 +108,8 @@ export default function OurServices() {
                         width={400}
                         height={400}
                     />
-
                 </div>
             </div>
         </section>
     );
-};
-
+}
