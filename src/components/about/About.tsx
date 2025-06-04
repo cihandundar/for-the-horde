@@ -45,7 +45,7 @@ export default function About() {
                 <div className="flex flex-wrap justify-center">
                     {aboutCards.map((item) => (
                         <div key={item.id} className="lg:w-1/3 md:w-1/2 w-full p-4 ">
-                            <div className="p-4 flex flex-col items-center rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out border-1 border-gray-300">
+                            <div className="p-4 flex flex-col items-center rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out border-1 border-gray-200">
                                 <Image
                                     className="w-full h-auto rounded-md"
                                     src={item.src}

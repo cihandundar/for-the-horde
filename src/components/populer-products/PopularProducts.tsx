@@ -33,7 +33,7 @@ export default function PopularProducts(): React.ReactElement {
     return (
         <section className="py-[75px] bg-white sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
-                <div className="text-center text-4xl font-bold  mb-10 uppercase">Popular Products</div>
+                <div className="text-center text-4xl font-bold   uppercase">Popular Products</div>
                 <>
                     {loading && <div className='flex justify-center items-center py-10'><span className="loader"></span></div>}
                     {error && <p>Error: {error}</p>}
