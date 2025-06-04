@@ -16,6 +16,7 @@ interface Product {
     isPriceRange: number | string
     rating: number
     title: string
+    inStock: boolean
 }
 
 export default function PopularProducts(): React.ReactElement {
@@ -58,7 +59,7 @@ export default function PopularProducts(): React.ReactElement {
                         >
                             {products?.map((item) => (
                                 <SwiperSlide key={item?.slug}>
-                                    <Link href={"/"} className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 relative'>
+                                    <Link href={"/"} className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 border-1 border-gray-300'>
                                         <Image src={item?.coverImage} alt={item?.name} width={250} height={250} className='pb-3' />
                                         <div className="pl-5">
                                             <div className="text-xl font-thin ">{item?.title}</div>
@@ -68,6 +69,9 @@ export default function PopularProducts(): React.ReactElement {
                                                 {typeof item?.isPriceRange === 'number'
                                                     ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })?.format(item.isPriceRange)
                                                     : item?.isPriceRange}
+                                            </div>
+                                            <div className={`font-semibold pb-2 ${item?.inStock ? 'text-green-600' : 'text-red-600'}`}>
+                                                {item?.inStock ? 'In Stock' : 'Out of Stock'}
                                             </div>
                                             <button className='bg-yellow-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>View Details</button>
                                         </div>
