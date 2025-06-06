@@ -1,7 +1,8 @@
 import About from "@/components/about/About";
+import Blogs from "@/components/blogs/Blogs";
 import Hero from "@/components/hero/Hero";
 import OurServices from "@/components/our-services/OurServices";
-import PopularProducts from "@/components/populer-products/PopularProducts";
+import PopularProducts from "@/components/popular-products/PopularProducts";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <About />
       <OurServices />
       <PopularProducts />
+      <Blogs />
     </>
   );
 }

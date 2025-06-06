@@ -20,11 +20,14 @@ const Navbar = (): React.ReactElement => {
 
     const routes: Route[] = [
         { name: "Home", href: session ? "/home" : "/", isVisible: true },
+        { name: "About Us", href: "/about", isVisible: true },
+        { name: "Blog", href: "/blog", isVisible: true },
+        { name: "Contact", href: "/contact", isVisible: true },
         { name: "Profile", href: "/profile", isVisible: !!session },
         { name: "Cart", href: "/cart", isVisible: !!session },
-        { name: "Login", href: "/signin", isVisible: !session },
-        { name: "Register", href: "/signup", isVisible: !session },
     ];
+
+
 
     return (
         <>
@@ -86,21 +89,57 @@ const Navbar = (): React.ReactElement => {
                         </button>
 
                         {/* DESKTOP NAVIGATION */}
-                        <nav className="hidden md:block">
-                            <ul className="flex gap-6 items-center">
+                        <nav className="hidden md:flex justify-between items-center w-full">
+
+                            <ul className="flex gap-6 items-center mx-auto">
                                 {routes
                                     .filter((route) => route.isVisible)
                                     .map((route) => (
                                         <li key={route.name}>
                                             <Link
                                                 href={route.href}
-                                                className={`italic hover:font-bold transition-all duration-150 ease-in-out ${pathname === route.href ? "font-bold" : ""
-                                                    }`}
+                                                className={`relative italic pb-1 transition-all duration-300 
+                                                before:absolute before:left-0 before:right-0 before:-bottom-0.5 
+                                                before:h-[2px] before:bg-black before:scale-x-0 
+                                                hover:before:scale-x-100 before:transition-transform before:origin-left 
+                                                ${pathname === route.href ? "before:scale-x-100" : ""}`}
                                             >
                                                 {route.name}
                                             </Link>
                                         </li>
                                     ))}
+                            </ul>
+
+
+                            <ul className="flex gap-4 items-center">
+                                {!session && (
+                                    <>
+                                        <li>
+                                            <Link
+                                                href="/signin"
+                                                className={`relative italic pb-1 transition-all duration-300 
+                                                before:absolute before:left-0 before:right-0 before:-bottom-0.5 
+                                                before:h-[2px] before:bg-black before:scale-x-0 
+                                                hover:before:scale-x-100 before:transition-transform before:origin-left 
+                                                ${pathname === "/signin" ? "before:scale-x-100" : ""}`}
+                                            >
+                                                Login
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                href="/signup"
+                                                className={`relative italic pb-1 transition-all duration-300 
+                                                before:absolute before:left-0 before:right-0 before:-bottom-0.5 
+                                                before:h-[2px] before:bg-black before:scale-x-0 
+                                                hover:before:scale-x-100 before:transition-transform before:origin-left 
+                                                ${pathname === "/signup" ? "before:scale-x-100" : ""}`}
+                                            >
+                                                Register
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
                                 {session && (
                                     <li>
                                         <LogoutButton />
@@ -108,6 +147,7 @@ const Navbar = (): React.ReactElement => {
                                 )}
                             </ul>
                         </nav>
+
                     </div>
 
                     {/* MOBILE NAVIGATION */}
@@ -115,7 +155,7 @@ const Navbar = (): React.ReactElement => {
                         className={`md:hidden absolute left-0 right-0 bg-gray-100 shadow-lg transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                             }`}
                     >
-                        <div className="container max-w-screen-xl mx-auto px-4">
+                        <div className="container max-w-screen-xl mx-auto p-4">
                             <ul className="flex flex-col gap-4 py-4">
                                 {routes
                                     .filter((route) => route.isVisible)
@@ -131,12 +171,37 @@ const Navbar = (): React.ReactElement => {
                                             </Link>
                                         </li>
                                     ))}
+                            </ul>
+                            <ul className="flex flex-col gap-4">
+                                {!session && (
+                                    <>
+                                        <li>
+                                            <Link
+                                                href="/signin"
+                                                className={`italic ${pathname === "/signin" ? "font-bold" : ""}`}
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                Login
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                href="/signup"
+                                                className={`italic ${pathname === "/signup" ? "font-bold" : ""}`}
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                Register
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
                                 {session && (
                                     <li>
                                         <LogoutButton />
                                     </li>
                                 )}
                             </ul>
+
                         </div>
                     </nav>
                 </div>

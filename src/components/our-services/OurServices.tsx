@@ -36,7 +36,7 @@ export default function OurServices(): React.ReactElement {
 
 
     return (
-        <section className="py-[75px] bg-white sm:px-0 px-2">
+        <section className="py-[75px] bg-gray-100 sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
                     <div className="text-4xl font-bold mb-2 text-center uppercase">
