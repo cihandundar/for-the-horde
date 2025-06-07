@@ -28,7 +28,7 @@ model Blogs {
   title     String
   content   String
   author    String
-  createdAt DateTime @default(now())
+  createdAt String 
   imageUrl  String
   tags      String[]
 }

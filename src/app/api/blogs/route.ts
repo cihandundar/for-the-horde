@@ -1,26 +1,24 @@
-import { prisma } from '@/lib/prismadb';
-import { NextResponse } from 'next/server';
+import { prisma } from "@/lib/prismadb"
+import { NextResponse } from "next/server"
 
 export async function GET() {
     try {
-        console.log('Prisma instance:', prisma); // Debug log
-        const blogs = await prisma.blogs.findMany();
-        return NextResponse.json({ blogs });
+
+        const blogs = await prisma.blogs.findMany()
+        return NextResponse.json({ blogs }, { status: 200 })
     } catch (error) {
-        console.error('Bloglar alınırken hata:', error);
-        console.error('Prisma instance durumu:', {
-            isPrismaDefined: !!prisma,
-            prismaType: typeof prisma,
-            prismaKeys: prisma ? Object.keys(prisma) : 'undefined'
-        });
-        
-        return NextResponse.json(
-            {
-                message: 'Bir hata oluştu',
-                error: error instanceof Error ? error.message : String(error),
-                details: error instanceof Error ? error.stack : undefined
-            },
-            { status: 500 }
-        );
+        console.error("API HATASI:", error)
+        const errorMessage = error instanceof Error ? error.message : "Bilinmeyen bir hata oluştu"
+        if (errorMessage.includes("Failed to convert") && errorMessage.includes("DateTime")) {
+            return NextResponse.json(
+                {
+                    message: "Tarih formatı hatası",
+                    error: "Veritabanındaki tarih alanları uyumsuz. Lütfen veritabanını düzeltin veya şemayı güncelleyin.",
+                    suggestion: "Prisma şemasında createdAt alanını String olarak değiştirmeyi deneyin.",
+                },
+                { status: 500 },
+            )
+        }
+        return NextResponse.json({ message: "Veritabanı hatası", error: errorMessage }, { status: 500 })
     }
 }
