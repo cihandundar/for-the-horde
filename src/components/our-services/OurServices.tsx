@@ -31,6 +31,11 @@ export default function OurServices(): React.ReactElement {
                 "We prioritize your satisfaction with friendly and professional assistance, addressing your needs with attention to detail and empathy.",
             image: "/images/our-services2.png",
         },
+        {
+            title: "Fast Shipping",
+            description: "We ensure your orders are delivered quickly and securely, working diligently to get them to you on time.",
+            image: "/images/our-services5.png",
+        },
 
     ];
 
@@ -49,7 +54,7 @@ export default function OurServices(): React.ReactElement {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ">
                     {services?.map((item) => (
                         <div key={item.title} className="col-span-1 flex flex-col items-center justify-center text-center shadow-xl rounded-lg bg-white p-5 border-1 border-gray-300">
                             <Image
