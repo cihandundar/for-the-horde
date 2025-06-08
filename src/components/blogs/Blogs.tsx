@@ -36,7 +36,7 @@ export default function Blogs(): React.ReactElement {
     return (
         <section className="py-[75px] bg-gray-100 sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
-                <div className="text-4xl font-bold text-center mb-10">Blogs</div>
+                <div className="text-4xl font-bold text-center mb-10 uppercase">Blogs</div>
                 {loading && <div className='flex justify-center items-center py-10'><span className="loader"></span></div>}
                 {error && <p>Error: {error}</p>}
                 {!loading && !error && (
@@ -77,7 +77,7 @@ export default function Blogs(): React.ReactElement {
                                                 <div className=" grid grid-cols-3 gap-2">
                                                     {
                                                         item?.tags?.map((tag, index) => (
-                                                            <div key={index} className='col-span-1 bg-gray-200 rounded-lg px-1 py-3 text-sm text-center'>
+                                                            <div key={index} className='col-span-1 bg-gray-200 rounded-lg px-1 py-2 text-sm text-center'>
                                                                 {tag}
                                                             </div>
                                                         ))
@@ -110,7 +110,7 @@ export default function Blogs(): React.ReactElement {
                                             <div className=" grid grid-cols-3 gap-2">
                                                 {
                                                     item?.tags?.map((tag, index) => (
-                                                        <div key={index} className='col-span-1 bg-gray-200 rounded-lg px-1 py-3 text-sm text-center'>
+                                                        <div key={index} className='col-span-1 bg-gray-200 rounded-lg px-1 py-2 text-sm text-center'>
                                                             {tag}
                                                         </div>
                                                     ))
@@ -123,7 +123,9 @@ export default function Blogs(): React.ReactElement {
                         </div>
                     </>
                 )}
-
+                <div className="text-center mt-10">
+                    <Link href={"/blog"} className=" text-center mt-10 py-2 px-10 bg-amber-400 hover:bg-amber-300 transition-all duration-300 ease-in rounded-lg font-bold shadow-lg">View All</Link>
+                </div>
             </div>
         </section>
     )

@@ -38,7 +38,7 @@ export default function About() {
     return (
         <section className="bg-white py-[75px]">
             <div className="container max-w-screen-xl mx-auto px-4">
-                <div className="text-center text-4xl font-bold  mb-2">About Us</div>
+                <div className="text-center text-4xl font-bold  mb-2 uppercase">About Us</div>
                 <div className="text-center mb-6 text-gray-600 max-w-2xl mx-auto">
                     Discover who we are, what we stand for, and how we bring the latest in mobile technology to your hands.
                 </div>
