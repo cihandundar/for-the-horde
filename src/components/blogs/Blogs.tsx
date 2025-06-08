@@ -2,8 +2,14 @@
 import { fetchBlogs } from '@/redux/features/blogSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Navigation, Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { SlCalender } from "react-icons/sl";
+import { CiUser } from "react-icons/ci";
+
 
 interface Blog {
     _id: string
@@ -30,19 +36,92 @@ export default function Blogs(): React.ReactElement {
     return (
         <section className="py-[75px] bg-gray-100 sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
-
+                <div className="text-4xl font-bold text-center mb-5">Blogs</div>
                 {loading && <div className='flex justify-center items-center py-10'><span className="loader"></span></div>}
                 {error && <p>Error: {error}</p>}
                 {!loading && !error && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
-                        {blogs?.map((item) => (
-                            <div key={item?.id} className="col-span-1 flex flex-col items-center justify-center text-center shadow-xl rounded-lg bg-white p-5 border-1 border-gray-300">
-                                <Image src={item?.imageUrl} alt={item?.title} width={100} height={80} className='object-contain w-[80px] h-[80px]' />
-                                <div className="text-lg py-3 font-bold">{item?.title}</div>
-                                <div className="font-thin">{item?.content}</div>
-                            </div>
-                        ))}
-                    </div>
+
+                    <>
+                        <div className="block lg:hidden">
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={16}
+                                navigation={true}
+                                pagination={{ clickable: true }}
+                                loop={true}
+                                modules={[Navigation, Pagination]}
+                                breakpoints={{
+                                    640: {
+                                        slidesPerView: 2,
+                                    },
+                                    768: {
+                                        slidesPerView: 2,
+                                    },
+                                }}
+                            >
+                                {blogs?.slice(0, 4).map((item) => (
+                                    <SwiperSlide key={item?.id}>
+                                        <Link href={`/blogs/${item?.id}`} className="shadow-xl inline-block h-full rounded-lg overflow-hidden">
+                                            <Image src={item?.imageUrl} alt={item?.title} width={300} height={250} className='object-cover object-center lg:w-[300px] lg:h-[200px] w-full h-full' />
+                                            <div className="p-3 flex flex-col gap-3">
+                                                <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>
+                                                <div className="font-thin  line-clamp-3">{item?.content}</div>
+                                                <div className="flex items-center gap-2">
+                                                    <SlCalender />
+                                                    <div>{new Date(item?.createdAt).toLocaleDateString()}</div>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <CiUser />
+                                                    <div>{item?.author}</div>
+                                                </div>
+                                                <div className=" grid grid-cols-3 gap-2">
+                                                    {
+                                                        item?.tags?.map((tag, index) => (
+                                                            <div key={index} className='col-span-1 bg-gray-200 rounded-lg px-1 py-3 text-sm text-center'>
+                                                                {tag}
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
+
+
+                        <div className="hidden lg:grid grid-cols-4 gap-6">
+                            {blogs?.slice(0, 4).map((item) => (
+                                <div key={item?.id}>
+                                    <Link href={`/blogs/${item?.id}`} className="shadow-xl hover:shadow-2xl inline-block h-full rounded-lg overflow-hidden">
+                                        <Image src={item?.imageUrl} alt={item?.title} width={300} height={250} className='object-cover object-center lg:w-[300px] lg:h-[200px] w-full h-full' />
+                                        <div className="p-3 flex flex-col gap-3">
+                                            <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>
+                                            <div className="font-thin  line-clamp-3">{item?.content}</div>
+                                            <div className="flex items-center gap-2">
+                                                <SlCalender />
+                                                <div>{new Date(item?.createdAt).toLocaleDateString()}</div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <CiUser />
+                                                <div>{item?.author}</div>
+                                            </div>
+                                            <div className=" grid grid-cols-3 gap-2">
+                                                {
+                                                    item?.tags?.map((tag, index) => (
+                                                        <div key={index} className='col-span-1 bg-gray-200 rounded-lg px-1 py-3 text-sm text-center'>
+                                                            {tag}
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </>
                 )}
 
             </div>
