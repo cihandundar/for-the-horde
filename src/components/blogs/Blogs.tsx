@@ -36,7 +36,7 @@ export default function Blogs(): React.ReactElement {
     return (
         <section className="py-[75px] bg-gray-100 sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
-                <div className="text-4xl font-bold text-center mb-5">Blogs</div>
+                <div className="text-4xl font-bold text-center mb-10">Blogs</div>
                 {loading && <div className='flex justify-center items-center py-10'><span className="loader"></span></div>}
                 {error && <p>Error: {error}</p>}
                 {!loading && !error && (
