@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -20,13 +20,25 @@ const Navbar = (): React.ReactElement => {
 
     const routes: Route[] = [
         { name: "Home", href: session ? "/home" : "/", isVisible: true },
-        { name: "About Us", href: "/about", isVisible: true },
+        { name: "About Us", href: "/about-us", isVisible: true },
         { name: "Blog", href: "/blog", isVisible: true },
-        { name: "Contact", href: "/contact", isVisible: true },
+        { name: "Contact", href: "/contact-us", isVisible: true },
+        { name: "Products", href: "/products", isVisible: true },
         { name: "Profile", href: "/profile", isVisible: !!session },
         { name: "Cart", href: "/cart", isVisible: !!session },
     ];
 
+
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isMenuOpen]);
 
 
     return (

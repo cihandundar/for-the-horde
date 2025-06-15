@@ -16,25 +16,25 @@ const aboutCards: SelectedImage[] = [
         src: "/images/about2.jpg",
         title: "Efficient Inventory Management",
         desc: "Our team ensures that every product is accurately stored, tracked, and managed. With advanced warehouse systems and expert staff, we maintain complete control over inventory logistics to meet your business needs.",
-        link: "/about",
+        link: "/about-us",
     },
     {
         id: 2,
         src: "/images/about1.jpg",
         title: "Seamless Order Processing",
         desc: "From the moment an order is placed to the final delivery, we streamline the entire process with automation and precision. We guarantee quick, error-free fulfillment so your customers receive what they need, when they need it.",
-        link: "/about",
+        link: "/about-us",
     },
     {
         id: 3,
         src: "/images/about3.jpg",
         title: "Smart Logistics & Technology",
         desc: "Using smart barcode scanning and cutting-edge tools, we optimize the packaging and shipping process. Our tech-first approach increases efficiency, reduces errors, and enhances the overall customer experience.",
-        link: "/about",
+        link: "/about-us",
     },
 ];
 
-export default function About() {
+export default function AboutCards() {
     return (
         <section className="bg-white py-[75px]">
             <div className="container max-w-screen-xl mx-auto px-4">
@@ -58,7 +58,7 @@ export default function About() {
                                 <div className="text-center my-2 text-xs text-gray-700">{item.desc}</div>
                                 <Link
                                     href={item.link}
-                                    className="w-full bg-black border border-black text-center py-3 text-white rounded-lg mt-2  hover:bg-white hover:text-black transition-all duration-300 ease-in-out"
+                                    className="w-full bg-blue-400 border border-blue-400 text-center py-3 text-black font-bold rounded-lg mt-2  hover:bg-blue-300 transition-all duration-300 ease-in-out"
                                 >
                                     See More
                                 </Link>

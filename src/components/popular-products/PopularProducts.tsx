@@ -73,7 +73,7 @@ export default function PopularProducts(): React.ReactElement {
                                             <div className={`font-semibold pb-2 ${item?.inStock ? 'text-green-600' : 'text-red-600'}`}>
                                                 {item?.inStock ? 'In Stock' : 'Out of Stock'}
                                             </div>
-                                            <button className='bg-yellow-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>View Details</button>
+                                            <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>View Details</button>
                                         </div>
                                     </Link >
                                 </SwiperSlide>

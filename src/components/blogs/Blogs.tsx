@@ -61,9 +61,9 @@ export default function Blogs(): React.ReactElement {
                             >
                                 {blogs?.slice(0, 4).map((item) => (
                                     <SwiperSlide key={item?.id}>
-                                        <Link href={`/blogs/${item?.id}`} className="shadow-xl inline-block h-full rounded-lg overflow-hidden">
+                                        <Link href={`/blogs/${item?.id}`} className="shadow-xl inline-block h-full rounded-lg overflow-hidden bg-white">
                                             <Image src={item?.imageUrl} alt={item?.title} width={300} height={250} className='object-cover object-center lg:w-[300px] lg:h-[200px] w-full h-full' />
-                                            <div className="p-3 flex flex-col gap-3">
+                                            <div className="p-3 flex flex-col gap-3 ">
                                                 <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>
                                                 <div className="font-thin  line-clamp-3">{item?.content}</div>
                                                 <div className="flex items-center gap-2">
@@ -123,8 +123,8 @@ export default function Blogs(): React.ReactElement {
                         </div>
                     </>
                 )}
-                <div className="text-center mt-10">
-                    <Link href={"/blog"} className=" text-center mt-10 py-2 px-10 bg-amber-400 hover:bg-amber-300 transition-all duration-300 ease-in rounded-lg font-bold shadow-lg">View All</Link>
+                <div className="text-center mt-20">
+                    <Link href={"/blog"} className=" text-center mt-10 py-5 px-20 bg-blue-400 hover:bg-blue-300 transition-all duration-300 ease-in rounded-lg font-bold shadow-lg">View All</Link>
                 </div>
             </div>
         </section>
