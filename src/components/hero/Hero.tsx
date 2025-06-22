@@ -25,12 +25,12 @@ type SliderImage = {
 };
 
 const sliderImages: SliderImage[] = [
-    { id: 1, src: "/images/hero1.jpg", link: "/signin" },
-    { id: 2, src: "/images/hero2.jpg", link: "/signin" },
-    { id: 3, src: "/images/hero3.jpg", link: "/signin" },
-    { id: 4, src: "/images/hero4.jpg", link: "/signin" },
-    { id: 5, src: "/images/hero5.jpg", link: "/signin" },
-    { id: 6, src: "/images/hero6.jpg", link: "/signin" },
+    { id: 1, src: "/images/hero1.jpg", link: "/products" },
+    { id: 2, src: "/images/hero2.jpg", link: "/products" },
+    { id: 3, src: "/images/hero3.jpg", link: "/products" },
+    { id: 4, src: "/images/hero4.jpg", link: "/products" },
+    { id: 5, src: "/images/hero5.jpg", link: "/products" },
+    { id: 6, src: "/images/hero6.jpg", link: "/products" },
 ];
 
 export default function Hero(): React.ReactElement {
