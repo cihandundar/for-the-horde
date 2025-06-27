@@ -61,7 +61,7 @@ const Navbar = (): React.ReactElement => {
             )}
 
             <header className="shadow-lg py-3 bg-gray-100 sticky top-0 z-10">
-                <div className="container max-w-screen-xl mx-auto px-4">
+                <div className="container max-w-screen-xl mx-auto md:px-0 px-4">
                     <div className="flex justify-between items-center">
                         <Link href={session ? "/home" : "/"}>
                             <Image
