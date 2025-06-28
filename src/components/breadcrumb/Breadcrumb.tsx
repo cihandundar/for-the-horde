@@ -4,17 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-// örnek: "my-page-title" => "My Page Title"
 const formatSegment = (segment: string) =>
     segment
         .replace(/-/g, " ")
         .replace(/\b\w/g, (char) => char.toUpperCase());
 
 const Breadcrumb = () => {
-    const pathname = usePathname(); // örnek: /services/web-design
-    const segments = pathname.split("/").filter(Boolean); // ["services", "web-design"]
+    const pathname = usePathname();
+    const segments = pathname.split("/").filter(Boolean);
 
-    // Ana sayfadaysa hiç gösterme
     if (segments.length === 0) return null;
 
     const lastSegment = segments[segments.length - 1];
