@@ -20,12 +20,12 @@ const Breadcrumb = () => {
     const lastSegment = segments[segments.length - 1];
 
     return (
-        <div className="bg-black py-6 ">
-            <div className="container mx-auto max-w-screen-xl flex justify-between items-center  text-center ">
-                <h1 className="text-3xl font-bold text-white mb-3">
+        <div className="bg-black py-6 px-3 md:px-0">
+            <div className="container mx-auto max-w-screen-xl flex justify-between items-center ">
+                <h1 className="text-3xl font-bold text-white">
                     {formatSegment(lastSegment)}
                 </h1>
-                <nav className="text-sm text-white mb-2">
+                <nav className="text-sm text-white">
                     <ol className="flex flex-wrap items-center space-x-2">
                         <li>
                             <Link href="/">
