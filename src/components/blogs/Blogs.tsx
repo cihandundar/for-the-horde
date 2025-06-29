@@ -61,7 +61,7 @@ export default function Blogs(): React.ReactElement {
                             >
                                 {blogs?.slice(0, 4).map((item) => (
                                     <SwiperSlide key={item?.id}>
-                                        <Link href={`/blogs/${item?.id}`} className="shadow-xl inline-block h-full rounded-lg overflow-hidden bg-white">
+                                        <Link href={`/blog/${item?.id}`} className="shadow-xl inline-block h-full rounded-lg overflow-hidden bg-white">
                                             <Image src={item?.imageUrl} alt={item?.title} width={300} height={250} className='object-cover object-center lg:w-[300px] lg:h-[200px] w-full h-full' />
                                             <div className="p-3 flex flex-col gap-3 ">
                                                 <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>
@@ -94,7 +94,7 @@ export default function Blogs(): React.ReactElement {
                         <div className="hidden lg:grid grid-cols-4 gap-6">
                             {blogs?.slice(0, 4).map((item) => (
                                 <div key={item?.id}>
-                                    <Link href={`/blogs/${item?.id}`} className="shadow-xl hover:shadow-2xl inline-block h-full rounded-lg overflow-hidden">
+                                    <Link href={`/blog/${item?.id}`} className="shadow-xl hover:shadow-2xl inline-block h-full rounded-lg overflow-hidden">
                                         <Image src={item?.imageUrl} alt={item?.title} width={300} height={250} className='object-cover object-center lg:w-[300px] lg:h-[200px] w-full h-full' />
                                         <div className="p-3 flex flex-col gap-3">
                                             <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>

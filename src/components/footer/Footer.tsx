@@ -5,6 +5,7 @@ import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
+    const currentYear = new Date().getFullYear();
     return (
         <>
             <footer className='bg-gray-100 py-[75px]'>
@@ -118,7 +119,7 @@ const Footer = () => {
             <div className="bg-black">
                 <div className="py-4 text-center">
                     <div className="text-white">
-                        © 2025 Warcarft. All rights reserved.
+                        © {currentYear} Warcarft. All rights reserved.
                     </div>
                 </div>
             </div>

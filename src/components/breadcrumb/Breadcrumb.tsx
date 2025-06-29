@@ -37,10 +37,7 @@ const Breadcrumb = () => {
                                     <span >/</span>
                                     <Link
                                         href={href}
-                                        className={`hover:underline ${index === segments.length - 1
-                                            ? "text-white font-medium"
-                                            : "text-blue-600"
-                                            }`}
+                                        className={`hover:underline text-white font-medium ${index === segments.length - 1}`}
                                     >
                                         {formatSegment(segment)}
                                     </Link>
