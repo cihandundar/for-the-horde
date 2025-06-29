@@ -45,7 +45,7 @@ const Navbar = (): React.ReactElement => {
         if (currentRoute) {
             document.title = currentRoute.name;
         } else {
-            document.title = "Warcarft";
+            document.title = "Warcraft";
         }
     }, [pathname, session]);
 

@@ -12,8 +12,8 @@ export default function AboutUs() {
                     <div className="flex items-center flex-col-reverse lg:flex-row  justify-between lg-px-0 px-4">
                         <Image src="/images/about1.jpg" alt="AboutUs" width={500} height={500} />
                         <div className="text-xl shadow-xl p-5 rounded-lg">
-                            Welcome to <b>Warcarft</b>, your trusted destination for the latest smartphones, mobile accessories, and unbeatable deals in mobile technology.
-                            At <b>Warcarft</b>, we believe that technology should be accessible, reliable, and exciting. Founded with a passion for innovation and customer satisfaction, our mission is to empower individuals with cutting-edge mobile devices that enhance their everyday lives. Whether you are a tech enthusiast, a business professional, or someone simply looking for a reliable phone to stay connected, we’ve got the right product for you.
+                            Welcome to <b>Warcraft</b>, your trusted destination for the latest smartphones, mobile accessories, and unbeatable deals in mobile technology.
+                            At <b>Warcraft</b>, we believe that technology should be accessible, reliable, and exciting. Founded with a passion for innovation and customer satisfaction, our mission is to empower individuals with cutting-edge mobile devices that enhance their everyday lives. Whether you are a tech enthusiast, a business professional, or someone simply looking for a reliable phone to stay connected, we’ve got the right product for you.
                         </div>
                     </div>
                     <div className="flex items-center flex-col lg:flex-row  justify-between lg-px-0 px-4">
@@ -71,8 +71,11 @@ export default function AboutUs() {
 
 
                     <div className="shadow-xl p-5 rounded-lg bg-black">
-                        <div className="text-4xl font-bold flex items-center gap-3 justify-center text-white">
-                            - Thank you for choosing Warcarft <FaRegSmile /> -
+                        <div className="text-4xl flex items-center gap-3 justify-center text-white">
+                            - Thank you for choosing <b>Warcraft</b> <FaRegSmile /> -
+                        </div>
+                        <div className="mt-3 text-white text-center text-lg">
+                            We are excited to be part of your digital journey.
                         </div>
                     </div>
                 </div>
