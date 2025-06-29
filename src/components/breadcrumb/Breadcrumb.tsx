@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const formatSegment = (segment: string) =>
     segment
@@ -11,6 +12,19 @@ const formatSegment = (segment: string) =>
 
 const Breadcrumb = () => {
     const pathname = usePathname();
+    const router = useRouter();
+    const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status !== "loading") {
+            if (session) {
+                if (pathname === "/") router.replace("/home");
+            } else {
+                if (pathname === "/home") router.replace("/");
+            }
+        }
+    }, [session, status, pathname, router]);
+
     const segments = pathname.split("/").filter(Boolean);
 
     if (segments.length === 0) return null;
@@ -19,14 +33,14 @@ const Breadcrumb = () => {
 
     return (
         <div className="bg-black py-6 px-3 md:px-0">
-            <div className="container mx-auto max-w-screen-xl flex justify-between items-center ">
+            <div className="container mx-auto max-w-screen-xl flex justify-between items-center">
                 <h1 className="text-3xl font-bold text-white">
                     {formatSegment(lastSegment)}
                 </h1>
                 <nav className="text-sm text-white">
                     <ol className="flex flex-wrap items-center space-x-2">
                         <li>
-                            <Link href="/">
+                            <Link href={session ? "/home" : "/"}>
                                 Home
                             </Link>
                         </li>
@@ -34,7 +48,7 @@ const Breadcrumb = () => {
                             const href = "/" + segments.slice(0, index + 1).join("/");
                             return (
                                 <li key={index} className="flex items-center space-x-2">
-                                    <span >/</span>
+                                    <span>/</span>
                                     <Link
                                         href={href}
                                         className={`hover:underline text-white font-medium ${index === segments.length - 1}`}
@@ -47,7 +61,6 @@ const Breadcrumb = () => {
                     </ol>
                 </nav>
             </div>
-
         </div>
     );
 };

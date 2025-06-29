@@ -8,32 +8,40 @@ import Image from 'next/image'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import Link from 'next/link'
 import StarRating from '../rating/StarRating'
+import { useSession } from 'next-auth/react'
 
 interface Product {
-    slug: string
-    coverImage: string
-    name: string
-    isPriceRange: number | string
-    rating: number
+    _id: string
+    id: string
     title: string
+    name: string
+    wasPriceRange: number
+    isPriceRange: number | string
+    description: string
+    coverImage: string
+    images: string[]
     inStock: boolean
+    slug: string
+    rating: number
+    ratingCount: number
 }
 
 export default function PopularProducts(): React.ReactElement {
     const dispatch = useDispatch<AppDispatch>()
+    const { data: session } = useSession()
 
     const products = useSelector((state: RootState) => state.products.products) as Product[]
     const loading = useSelector((state: RootState) => state.products.loading)
     const error = useSelector((state: RootState) => state.products.error)
 
     useEffect(() => {
-        dispatch(fetchProducts())
+        dispatch(fetchProducts(1))
     }, [dispatch])
 
     return (
         <section className="py-[75px] bg-white sm:px-0 px-2">
             <div className="container max-w-screen-xl mx-auto">
-                <div className="text-center text-4xl font-bold   uppercase">Popular Products</div>
+                <div className="text-center text-4xl font-bold uppercase">Popular Products</div>
                 <>
                     {loading && <div className='flex justify-center items-center py-10'><span className="loader"></span></div>}
                     {error && <p>Error: {error}</p>}
@@ -64,8 +72,11 @@ export default function PopularProducts(): React.ReactElement {
                                         <div className="pl-5">
                                             <div className="text-xl font-thin ">{item?.title}</div>
                                             <div className="font-bold ">{item?.name}</div>
-                                            <div className='flex items-center gap-2'> <StarRating rating={item?.rating} /> <span className='font-bold'>{item?.rating} </span></div>
-                                            <div className=' py-2'>
+                                            <div className='flex items-center gap-2'>
+                                                <StarRating rating={item?.rating} />
+                                                <span className='font-bold'>{item?.rating}</span>
+                                            </div>
+                                            <div className='py-2'>
                                                 {typeof item?.isPriceRange === 'number'
                                                     ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })?.format(item.isPriceRange)
                                                     : item?.isPriceRange}
@@ -73,13 +84,26 @@ export default function PopularProducts(): React.ReactElement {
                                             <div className={`font-semibold pb-2 ${item?.inStock ? 'text-green-600' : 'text-red-600'}`}>
                                                 {item?.inStock ? 'In Stock' : 'Out of Stock'}
                                             </div>
-                                            <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>View Details</button>
+
+
+                                            {!item?.inStock ? (
+                                                <button className='bg-gray-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-not-allowed'>
+                                                    Out of Stock
+                                                </button>
+                                            ) : session ? (
+                                                <button className='bg-green-500 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
+                                                    Add to Cart
+                                                </button>
+                                            ) : (
+                                                <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
+                                                    View Details
+                                                </button>
+                                            )}
                                         </div>
-                                    </Link >
+                                    </Link>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-
                     )}
                 </>
             </div>
