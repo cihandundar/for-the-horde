@@ -40,6 +40,14 @@ const Navbar = (): React.ReactElement => {
         };
     }, [isMenuOpen]);
 
+    useEffect(() => {
+        const currentRoute = routes.find(route => route.href === pathname);
+        if (currentRoute) {
+            document.title = currentRoute.name;
+        } else {
+            document.title = "Warcarft";
+        }
+    }, [pathname, session]);
 
     return (
         <>
