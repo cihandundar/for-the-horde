@@ -57,8 +57,10 @@ export default function Product(): React.ReactElement {
                     <div className="grid grid-cols-12 gap-5">
                         {!loading && !error && products?.map((item) => (
                             <div key={item.slug} className='col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3'>
-                                <Link href={`/products/${item?.slug}`} className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 border-1 border-gray-300'>
-                                    <Image src={item?.coverImage} alt={item?.name} width={250} height={250} className='pb-3' />
+                                <div className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 border-1 border-gray-300'>
+                                    <Link href={`/products/${item?.slug}`} >
+                                        <Image src={item?.coverImage} alt={item?.name} width={250} height={250} className='pb-3' />
+                                    </Link>
                                     <div className="pl-5">
                                         <div className="text-xl font-thin ">{item?.title}</div>
                                         <div className="font-bold ">{item?.name}</div>
@@ -85,12 +87,15 @@ export default function Product(): React.ReactElement {
                                                 Add to Cart
                                             </button>
                                         ) : (
-                                            <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
-                                                View Details
-                                            </button>
+                                            <Link href={`/products/${item?.slug}`}>
+                                                <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
+                                                    View Details
+                                                </button>
+                                            </Link>
                                         )}
                                     </div>
-                                </Link>
+
+                                </div>
                             </div>
                         ))}
                     </div>
