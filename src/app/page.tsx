@@ -1,4 +1,5 @@
 import AboutCards from "@/components/about/AboutCards";
+import Accordion from "@/components/faq/Accordion";
 import Blogs from "@/components/blogs/Blogs";
 import Cta from "@/components/cta/Cta";
 import Hero from "@/components/hero/Hero";
@@ -13,6 +14,7 @@ export default function Home() {
       <OurServices />
       <PopularProducts />
       <Blogs />
+      <Accordion />
       <Cta />
     </>
   );
