@@ -19,6 +19,7 @@ export default function Input({
                 onChange={onChange}
                 type={type}
                 disabled={disabled}
+                required
                 placeholder=" "
                 className="outline-none p-4 border-2 border-neutral-300 w-full rounded-md peer focus:border-neutral-900"
             />

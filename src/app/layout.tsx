@@ -7,6 +7,7 @@ import Footer from "@/components/footer/Footer";
 import NextAuthSessionProvider from "../../providers/NextAuthSessionProvider";
 import ToastProvider from "../../providers/ToastProvider";
 import StoreProvider from "./StoreProvider"; // ✅ BURAYA EKLE
+import Cta from "@/components/cta/Cta";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
             <ToastProvider />
             {children}
           </NextAuthSessionProvider>
+          <Cta />
           <Footer />
         </StoreProvider>
       </body>

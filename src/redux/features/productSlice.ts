@@ -19,6 +19,7 @@ interface Product {
 
 interface ProductState {
     products: Product[]
+    currentProduct: Product | null
     loading: boolean
     error: string | null
     totalPages: number
@@ -26,6 +27,7 @@ interface ProductState {
 
 const initialState: ProductState = {
     products: [],
+    currentProduct: null,
     loading: false,
     error: null,
     totalPages: 1,
