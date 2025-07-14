@@ -50,6 +50,28 @@ export const fetchProducts = createAsyncThunk<
     }
 })
 
+
+export const fetchProductBySlug = createAsyncThunk<
+    Product | undefined, // Dönen değer tipi
+    string,              // Parametre tipi (slug)
+    { rejectValue: string }
+>(
+    'products/fetchProductBySlug',
+    async (slug, thunkAPI) => {
+        try {
+            const response = await axios.get<Product[]>(
+                `https://mern-ecommerce-backend-ten.vercel.app/api/products/${slug}`
+            );
+            return response.data[0];
+        } catch (err) {
+            const error = err as AxiosError;
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+
+
 const productSlice = createSlice({
     name: 'products',
     initialState,
@@ -70,6 +92,19 @@ const productSlice = createSlice({
                 state.loading = false
                 state.error = action.payload as string
             })
+            .addCase(fetchProductBySlug.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(fetchProductBySlug.fulfilled, (state, action: PayloadAction<Product | undefined>) => {
+                state.loading = false
+                state.currentProduct = action.payload || null
+            })
+            .addCase(fetchProductBySlug.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload as string
+            })
+
     },
 })
 

@@ -33,8 +33,8 @@ const Breadcrumb = () => {
 
     return (
         <div className="bg-black py-6 px-3 md:px-0">
-            <div className="container mx-auto max-w-screen-xl flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-white">
+            <div className="container mx-auto max-w-screen-xl flex justify-between items-center flex-wrap">
+                <h1 className="text-3xl font-bold text-white md:mb-0 mb-4">
                     {formatSegment(lastSegment)}
                 </h1>
                 <nav className="text-sm text-white">
