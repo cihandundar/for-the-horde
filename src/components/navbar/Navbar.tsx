@@ -137,10 +137,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signin"
-                                                className={`relative italic pb-1 transition-all duration-300 
-                                                before:absolute before:left-0 before:right-0 before:-bottom-0.5 
-                                                before:h-[2px] before:bg-black before:scale-x-0 
-                                                hover:before:scale-x-100 before:transition-transform before:origin-left 
+                                                className={`italic bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer
                                                 ${pathname === "/signin" ? "before:scale-x-100" : ""}`}
                                             >
                                                 Login
@@ -149,10 +146,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signup"
-                                                className={`relative italic pb-1 transition-all duration-300 
-                                                before:absolute before:left-0 before:right-0 before:-bottom-0.5 
-                                                before:h-[2px] before:bg-black before:scale-x-0 
-                                                hover:before:scale-x-100 before:transition-transform before:origin-left 
+                                                className={`italic bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer
                                                 ${pathname === "/signup" ? "before:scale-x-100" : ""}`}
                                             >
                                                 Register
@@ -198,7 +192,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signin"
-                                                className={`italic ${pathname === "/signin" ? "font-bold" : ""}`}
+                                                className={`block w-full text-center italic bg-gray-900 py-3  rounded-lg text-white shadow-xl cursor-pointer ${pathname === "/signin" ? "" : ""}`}
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 Login
@@ -207,7 +201,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signup"
-                                                className={`italic ${pathname === "/signup" ? "font-bold" : ""}`}
+                                                className={`block w-full text-center italic bg-gray-900 py-3  rounded-lg text-white shadow-xl cursor-pointer ${pathname === "/signup" ? "" : ""}`}
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 Register
