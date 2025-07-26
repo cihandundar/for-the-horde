@@ -2,61 +2,57 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
 
-interface Blog {
+interface Brand {
     _id: string
-    id: string
-    title: string
-    content: string
-    author: string
-    imageUrl: string
-    tags: string[]
+    name: string
+    logoUrl: string
 }
 
-interface BlogState {
-    blogs: Blog[]
+interface BrandState {
+    brands: Brand[]
     loading: boolean
     error: string | null
 }
 
-const initialState: BlogState = {
-    blogs: [],
+const initialState: BrandState = {
+    brands: [],
     loading: false,
     error: null
 }
 
 
-export const fetchBlogs = createAsyncThunk<Blog[], void, { rejectValue: string }>(
-    'api/blogs/fetchBlogs',
+export const fetchBrand = createAsyncThunk<Brand[], void, { rejectValue: string }>(
+    'api/brands/fetchBrand',
     async (_, thunkAPI) => {
         try {
-            const response = await axios.get<{ blogs: Blog[] }>('/api/blogs');
-            return response.data.blogs;
+            const response = await axios.get<{ brands: Brand[] }>('/api/brands');
+            return response.data.brands;
         } catch (err) {
             const error = err as AxiosError;
             return thunkAPI.rejectWithValue(error.message || 'Bir hata oluştu');
         }
     }
 );
-const blogSlice = createSlice({
-    name: 'blogs',
+const brandSlice = createSlice({
+    name: 'brands',
     initialState,
     reducers: {
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchBlogs.pending, (state) => {
+            .addCase(fetchBrand.pending, (state) => {
                 state.loading = true
                 state.error = null
             })
-            .addCase(fetchBlogs.fulfilled, (state, action: PayloadAction<Blog[]>) => {
+            .addCase(fetchBrand.fulfilled, (state, action: PayloadAction<Brand[]>) => {
                 state.loading = false
-                state.blogs = action.payload
+                state.brands = action.payload
             })
-            .addCase(fetchBlogs.rejected, (state, action) => {
+            .addCase(fetchBrand.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload as string
             })
     },
 });
 
-export default blogSlice.reducer;
+export default brandSlice.reducer;

@@ -7,7 +7,6 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { SlCalender } from "react-icons/sl";
 import { CiUser } from "react-icons/ci";
 
 
@@ -17,7 +16,6 @@ interface Blog {
     title: string
     content: string
     author: string
-    createdAt: Date
     imageUrl: string
     tags: string[]
 }
@@ -67,10 +65,6 @@ export default function Blogs(): React.ReactElement {
                                                 <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>
                                                 <div className="font-thin  line-clamp-3">{item?.content}</div>
                                                 <div className="flex items-center gap-2">
-                                                    <SlCalender />
-                                                    <div>{new Date(item?.createdAt).toLocaleDateString()}</div>
-                                                </div>
-                                                <div className="flex items-center gap-2">
                                                     <CiUser />
                                                     <div>{item?.author}</div>
                                                 </div>
@@ -99,10 +93,6 @@ export default function Blogs(): React.ReactElement {
                                         <div className="p-3 flex flex-col gap-3">
                                             <div className="font-bold line-clamp-1 overflow-hidden">{item?.title}</div>
                                             <div className="font-thin  line-clamp-3">{item?.content}</div>
-                                            <div className="flex items-center gap-2">
-                                                <SlCalender />
-                                                <div>{new Date(item?.createdAt).toLocaleDateString()}</div>
-                                            </div>
                                             <div className="flex items-center gap-2">
                                                 <CiUser />
                                                 <div>{item?.author}</div>

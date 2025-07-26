@@ -24,11 +24,38 @@ model User {
 }
 
 model Blogs {
-  id String @db.ObjectId() @default(auto()) @map("_id") @id
+  id        String   @db.ObjectId() @default(auto()) @map("_id") @id
   title     String
   content   String
   author    String
-  createdAt String 
   imageUrl  String
   tags      String[]
+}
+
+model Products {
+  id          String   @db.ObjectId() @id @map("_id") @default(auto())
+  name        String
+  brand       String
+  category    String
+  categoryId  String   @map("category_id")
+  sku         String
+  price       Float
+  currency    String
+  stock       Int
+  description String
+  features    Json?
+  images      Json?
+  ratings     Json?
+  createdAt   String 
+}
+
+model Brands {
+  id   String @db.ObjectId() @default(auto()) @map("_id") @id
+  name String
+  logoUrl  String
+}
+
+model Categories {
+  id   String @db.ObjectId() @default(auto()) @map("_id") @id
+  name String
 }

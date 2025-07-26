@@ -32,7 +32,7 @@ const Breadcrumb = () => {
     const lastSegment = segments[segments.length - 1];
 
     return (
-        <div className="bg-black py-6 px-3 md:px-0">
+        <section className="bg-black py-6 px-3 md:px-0">
             <div className="container mx-auto max-w-screen-xl flex justify-between items-center flex-wrap">
                 <h1 className="text-3xl font-bold text-white md:mb-0 mb-4">
                     {formatSegment(lastSegment)}
@@ -61,7 +61,7 @@ const Breadcrumb = () => {
                     </ol>
                 </nav>
             </div>
-        </div>
+        </section>
     );
 };
 

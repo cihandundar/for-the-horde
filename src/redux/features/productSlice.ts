@@ -52,8 +52,8 @@ export const fetchProducts = createAsyncThunk<
 
 
 export const fetchProductBySlug = createAsyncThunk<
-    Product | undefined, // Dönen değer tipi
-    string,              // Parametre tipi (slug)
+    Product | undefined,
+    string,
     { rejectValue: string }
 >(
     'products/fetchProductBySlug',
