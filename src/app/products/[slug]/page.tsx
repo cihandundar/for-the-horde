@@ -136,8 +136,8 @@ export default function ProductDetail() {
 
                     <div className="flex flex-col justify-center">
                         <div className="shadow-2xl p-10 rounded-2xl">
-                            <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
-                            <h2 className="text-xl font-semibold mb-4">{product.name}</h2>
+                            <div className="text-4xl font-semibold mb-2">{product.name}</div>
+                            <div className="text-xl  mb-4">{product.title}</div>
 
                             <div className="flex items-center gap-2 mb-4">
                                 <StarRating rating={product.rating} />
@@ -168,7 +168,7 @@ export default function ProductDetail() {
                                 ))}
                             </div>
 
-                            <p className="text-2xl font-bold text-green-600 mb-2">
+                            <p className="text-4xl mb-2">
                                 {new Intl.NumberFormat('en-US', {
                                     style: 'currency',
                                     currency: 'USD',
@@ -182,16 +182,16 @@ export default function ProductDetail() {
                             </div>
 
                             {!product.inStock ? (
-                                <button className="bg-gray-400 px-10 py-3 font-bold shadow-lg rounded-lg cursor-not-allowed">
+                                <button className="bg-gray-400 w-full py-3 font-bold shadow-lg rounded-lg cursor-not-allowed">
                                     Out of Stock
                                 </button>
                             ) : session ? (
-                                <button className="cursor-pointer bg-green-500 text-white px-10 py-3 font-bold shadow-lg rounded-lg hover:bg-green-600 transition">
+                                <button className="cursor-pointer bg-green-500 text-white w-full py-3 font-bold shadow-lg rounded-lg hover:bg-green-600 transition">
                                     Add to Cart
                                 </button>
                             ) : (
                                 <Link href="/signin">
-                                    <button className="cursor-pointer bg-blue-500 text-white px-10 py-3 font-bold shadow-lg rounded-lg hover:bg-blue-600 transition">
+                                    <button className="cursor-pointer bg-blue-500 text-white w-full py-3 font-bold shadow-lg rounded-lg hover:bg-blue-600 transition">
                                         Log in to Purchase
                                     </button>
                                 </Link>
@@ -223,35 +223,49 @@ export default function ProductDetail() {
             </section>
 
             <section className="py-16 bg-white">
-                <div className="container max-w-screen-xl mx-auto px-5 md:px-0">
-                    {(() => {
-                        const ratingDetails = product?.properties?.customerReviews?.ratingDetails
-                        if (!ratingDetails || ratingDetails.length === 0) return null
+                <div className="text-3xl font-bold text-center mb-5">Customer Reviews</div>
+                <div className="container max-w-screen-xl mx-auto px-5 md:px-0 flex items-start gap-10">
+                    <div className="shadow-xl flex flex-col items-center justify-center rounded-lg p-10 bg-white">
+                        <div className="text-3xl mb-4 font-bold">
+                            {product.rating}
+                        </div>
+                        <StarRating rating={product.rating} />
 
-                        const totalReviews = ratingDetails.reduce((acc: number, item) => acc + parseInt(item.value), 0) || 1
+                        <div className="font-thin mt-4">
+                            {product.ratingCount} Reviews
+                        </div>
+                    </div>
 
-                        return ratingDetails.map((item, index) => {
-                            const value = parseInt(item.value)
-                            const percentage = (value / totalReviews) * 100
+                    <div className='flex flex-col w-full'>
+                        {(() => {
+                            const ratingDetails = product?.properties?.customerReviews?.ratingDetails
+                            if (!ratingDetails || ratingDetails.length === 0) return null
 
-                            return (
-                                <div key={index} className="mb-4">
-                                    <div className="flex justify-between items-center mb-1 text-sm">
-                                        <span className="font-medium">{item.name} Rating</span>
-                                        <span className="text-gray-600">
-                                            {value} User (%{percentage.toFixed(1)})
-                                        </span>
+                            const totalReviews = ratingDetails.reduce((acc: number, item) => acc + parseInt(item.value), 0) || 1
+
+                            return ratingDetails.map((item, index) => {
+                                const value = parseInt(item.value)
+                                const percentage = (value / totalReviews) * 100
+
+                                return (
+                                    <div key={index} className="mb-4">
+                                        <div className="flex justify-between items-center mb-1 text-sm">
+                                            <span className="font-medium">{item.name} Rating</span>
+                                            <span className="text-gray-600">
+                                                {value} User (%{percentage.toFixed(1)})
+                                            </span>
+                                        </div>
+                                        <div className="w-full h-4 bg-gray-200 rounded overflow-hidden">
+                                            <div
+                                                className="h-4 bg-yellow-400 rounded transition-all duration-300"
+                                                style={{ width: `${percentage}%` }}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="w-full h-4 bg-gray-200 rounded overflow-hidden">
-                                        <div
-                                            className="h-4 bg-yellow-400 rounded transition-all duration-300"
-                                            style={{ width: `${percentage}%` }}
-                                        />
-                                    </div>
-                                </div>
-                            )
-                        })
-                    })()}
+                                )
+                            })
+                        })()}
+                    </div>
                 </div>
             </section>
 

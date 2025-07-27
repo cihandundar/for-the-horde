@@ -1,15 +1,16 @@
-// redux/store.ts
+
 import { configureStore } from '@reduxjs/toolkit'
 import productReducer from './features/productSlice'
 import blogReducer from './features/blogSlice'
 import brandReducer from './features/brandSlice'
-
+import customProductReducer from './features/customProductSlice'
 export const makeStore = () => {
   return configureStore({
     reducer: {
       products: productReducer,
       blogs: blogReducer,
       brands: brandReducer,
+      customproducts: customProductReducer
     },
   })
 }
