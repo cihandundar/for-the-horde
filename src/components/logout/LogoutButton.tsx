@@ -2,6 +2,7 @@
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { IoMdExit } from "react-icons/io";
 
 export default function LogoutButton() {
     const router = useRouter();
@@ -12,8 +13,8 @@ export default function LogoutButton() {
     };
 
     return (
-        <button className="bg-red-800 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer" onClick={handleLogout}>
-            Logout
+        <button className="bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer flex items-center gap-2" onClick={handleLogout}>
+            Logout<IoMdExit className='text-white mt-1 text-xl' />
         </button>
     )
 }

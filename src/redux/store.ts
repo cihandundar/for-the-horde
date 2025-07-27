@@ -4,13 +4,15 @@ import productReducer from './features/productSlice'
 import blogReducer from './features/blogSlice'
 import brandReducer from './features/brandSlice'
 import customProductReducer from './features/customProductSlice'
+import cartReducer from './features/cardSlice'
 export const makeStore = () => {
   return configureStore({
     reducer: {
       products: productReducer,
       blogs: blogReducer,
       brands: brandReducer,
-      customproducts: customProductReducer
+      customproducts: customProductReducer,
+      cart: cartReducer,
     },
   })
 }
