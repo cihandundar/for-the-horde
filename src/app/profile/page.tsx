@@ -117,7 +117,7 @@ export default function ProfilePage() {
     return (
         <section className="container max-w-screen-lg mx-auto py-10 px-4">
             <div className="bg-white shadow-lg rounded-xl p-6 mb-8">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex md:items-center items-start md:flex-row flex-col justify-between mb-6">
                     <div className="flex items-center gap-6">
                         <div className="relative">
                             {(isEditing ? (formData.profileImage || user.profileImage) : user.profileImage) ? (
@@ -153,7 +153,7 @@ export default function ProfilePage() {
                     </div>
                     <button
                         onClick={() => setIsEditing(!isEditing)}
-                        className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        className="md:mt-0 mt-5 cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         {isEditing ? 'Cancel' : 'Edit Profile'}
                     </button>

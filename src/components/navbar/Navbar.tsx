@@ -6,6 +6,9 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import LogoutButton from "../logout/LogoutButton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { FaCartArrowDown } from "react-icons/fa";
 
 type Route = {
     name: string;
@@ -18,6 +21,9 @@ const Navbar = (): React.ReactElement => {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
     const routes: Route[] = [
         { name: "Home", href: session ? "/home" : "/", isVisible: true },
         { name: "About Us", href: "/about-us", isVisible: true },
@@ -25,16 +31,10 @@ const Navbar = (): React.ReactElement => {
         { name: "Contact", href: "/contact-us", isVisible: true },
         { name: "Products", href: "/products", isVisible: true },
         { name: "Profile", href: "/profile", isVisible: !!session },
-        { name: "Cart", href: "/cart", isVisible: !!session },
     ];
 
-
     useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
+        document.body.style.overflow = isMenuOpen ? "hidden" : "";
         return () => {
             document.body.style.overflow = "";
         };
@@ -42,11 +42,7 @@ const Navbar = (): React.ReactElement => {
 
     useEffect(() => {
         const currentRoute = routes.find(route => route.href === pathname);
-        if (currentRoute) {
-            document.title = currentRoute.name;
-        } else {
-            document.title = "Warcraft";
-        }
+        document.title = currentRoute ? currentRoute.name : "Warcraft";
     }, [pathname, session]);
 
     return (
@@ -80,37 +76,49 @@ const Navbar = (): React.ReactElement => {
                             />
                         </Link>
 
-                        <button
-                            className="md:hidden p-2"
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                        <div className="flex items-center gap-3">
+                            {session && (
+                                <Link href="/cart" className="relative block md:hidden">
+                                    <FaCartArrowDown className="text-3xl" />
+                                    {cartCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                                            {cartCount}
+                                        </span>
+                                    )}
+                                </Link>
+                            )}
+
+                            <button
+                                className="md:hidden p-2"
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
                             >
-                                {isMenuOpen ? (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                ) : (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                )}
-                            </svg>
-                        </button>
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    {isMenuOpen ? (
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    ) : (
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    )}
+                                </svg>
+                            </button>
+                        </div>
 
                         {/* DESKTOP NAVIGATION */}
                         <nav className="hidden md:flex justify-between items-center w-full">
-
                             <ul className="flex gap-6 items-center mx-auto">
                                 {routes
                                     .filter((route) => route.isVisible)
@@ -128,8 +136,19 @@ const Navbar = (): React.ReactElement => {
                                             </Link>
                                         </li>
                                     ))}
+                                {session && (
+                                    <li>
+                                        <Link href="/cart" className="relative italic">
+                                            Cart
+                                            {cartCount > 0 && (
+                                                <span className="ml-1 text-blue-600 font-bold">
+                                                    ({cartCount})
+                                                </span>
+                                            )}
+                                        </Link>
+                                    </li>
+                                )}
                             </ul>
-
 
                             <ul className="flex gap-4 items-center">
                                 {!session && (
@@ -137,8 +156,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signin"
-                                                className={`italic bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer
-                                                ${pathname === "/signin" ? "before:scale-x-100" : ""}`}
+                                                className={`italic bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer`}
                                             >
                                                 Login
                                             </Link>
@@ -146,8 +164,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signup"
-                                                className={`italic bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer
-                                                ${pathname === "/signup" ? "before:scale-x-100" : ""}`}
+                                                className={`italic bg-gray-900 py-3 px-10 rounded-lg text-white shadow-xl cursor-pointer`}
                                             >
                                                 Register
                                             </Link>
@@ -161,7 +178,6 @@ const Navbar = (): React.ReactElement => {
                                 )}
                             </ul>
                         </nav>
-
                     </div>
 
                     {/* MOBILE NAVIGATION */}
@@ -177,8 +193,7 @@ const Navbar = (): React.ReactElement => {
                                         <li key={route.name}>
                                             <Link
                                                 href={route.href}
-                                                className={`block italic ${pathname === route.href ? "font-bold" : ""
-                                                    }`}
+                                                className={`block italic ${pathname === route.href ? "font-bold" : ""}`}
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 {route.name}
@@ -192,7 +207,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signin"
-                                                className={`block w-full text-center italic bg-gray-900 py-3  rounded-lg text-white shadow-xl cursor-pointer ${pathname === "/signin" ? "" : ""}`}
+                                                className="block w-full text-center italic bg-gray-900 py-3 rounded-lg text-white shadow-xl cursor-pointer"
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 Login
@@ -201,7 +216,7 @@ const Navbar = (): React.ReactElement => {
                                         <li>
                                             <Link
                                                 href="/signup"
-                                                className={`block w-full text-center italic bg-gray-900 py-3  rounded-lg text-white shadow-xl cursor-pointer ${pathname === "/signup" ? "" : ""}`}
+                                                className="block w-full text-center italic bg-gray-900 py-3 rounded-lg text-white shadow-xl cursor-pointer"
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 Register
@@ -215,7 +230,6 @@ const Navbar = (): React.ReactElement => {
                                     </li>
                                 )}
                             </ul>
-
                         </div>
                     </nav>
                 </div>

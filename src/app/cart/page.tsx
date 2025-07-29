@@ -54,7 +54,7 @@ export default function CartPage() {
                 </section>
             ) : (
                 <section className="grid grid-cols-12 gap-5">
-                    <div className="md:col-span-8 col-span-12 flex flex-col gap-4">
+                    <div className="md:col-span-8 col-span-12 md:mb-0 mb-3 flex flex-col gap-4">
                         {apiItems.map((item) => (
                             <div key={item.id} className="flex md:flex-row flex-col items-center md:justify-between justify-center p-4 shadow-lg rounded-lg">
                                 <img src={item.coverImage} alt={item.title} className="w-28 h-28 object-contain rounded-md" />
