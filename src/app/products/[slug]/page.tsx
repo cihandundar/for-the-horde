@@ -18,6 +18,7 @@ import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
+import { addToCart } from '@/redux/features/cardSlice'
 
 type Specification = {
     icon: string
@@ -86,6 +87,17 @@ export default function ProductDetail() {
     if (error) return <p className="text-center text-red-600 py-10">Error: {error}</p>
     if (!product) return <p className="text-center py-10">Product not found.</p>
 
+    const handleAddToCart = (product: Product) => {
+        dispatch(addToCart({
+            id: product.slug,
+            source: "api",
+            coverImage: product.coverImage,
+            title: product.title,
+            name: product.name,
+            isPriceRange: typeof product.isPriceRange === 'number' ? product.isPriceRange : parseFloat(product.isPriceRange),
+            quantity: 1,
+        }));
+    }
     return (
         <>
             <Breadcrumb />
@@ -186,7 +198,10 @@ export default function ProductDetail() {
                                     Out of Stock
                                 </button>
                             ) : session ? (
-                                <button className="cursor-pointer bg-green-500 text-white w-full py-3 font-bold shadow-lg rounded-lg hover:bg-green-600 transition">
+                                <button
+                                    onClick={() => handleAddToCart(product)}
+                                    className='bg-green-500 px-10 py-3 font-bold shadow-lg rounded-lg cursor-pointer'
+                                >
                                     Add to Cart
                                 </button>
                             ) : (

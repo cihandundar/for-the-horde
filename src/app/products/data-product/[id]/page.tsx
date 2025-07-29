@@ -6,6 +6,7 @@ import { fetchCustomProductById } from "@/redux/features/customProductSlice";
 import { RootState, AppDispatch } from "@/redux/store";
 import { useParams } from "next/navigation";
 import StarRating from "@/components/rating/StarRating";
+import { addToCart } from "@/redux/features/cardSlice";
 
 
 interface ProductFeatures {
@@ -64,6 +65,16 @@ export default function CustomProductDetail(): React.ReactElement {
 
     const product: Product = selectedProduct as Product;
 
+    const handleAddToCart = (product: Product) => {
+        dispatch(addToCart({
+            id: product.id || product._id,
+            name: product.name,
+            price: product.price,
+            image: product.images?.[0],
+            quantity: 1,
+            source: "mongo"
+        }))
+    }
     return (
         <section className="bg-white py-[75px]">
             <div className="container max-w-screen-xl mx-auto">
@@ -115,7 +126,10 @@ export default function CustomProductDetail(): React.ReactElement {
                                 currency: "USD",
                             }).format(product.price)}
                         </div>
-                        <button className="cursor-pointer bg-green-500 text-white w-full py-3 font-bold shadow-lg rounded-lg hover:bg-green-600 transition">
+                        <button
+                            onClick={() => handleAddToCart(product)}
+                            className='bg-green-500 px-10 py-3 font-bold shadow-lg rounded-lg cursor-pointer'
+                        >
                             Add to Cart
                         </button>
                     </div>

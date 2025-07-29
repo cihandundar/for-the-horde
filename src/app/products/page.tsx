@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'next/navigation'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
+import { addToCart } from '@/redux/features/cardSlice'
 
 interface Product {
     _id: string
@@ -41,6 +42,18 @@ export default function Product(): React.ReactElement {
     useEffect(() => {
         dispatch(fetchProducts(currentPage))
     }, [dispatch, currentPage])
+
+    const handleAddToCart = (product: Product) => {
+        dispatch(addToCart({
+            id: product.slug,
+            source: "api",
+            coverImage: product.coverImage,
+            title: product.title,
+            name: product.name,
+            isPriceRange: typeof product.isPriceRange === 'number' ? product.isPriceRange : parseFloat(product.isPriceRange),
+            quantity: 1,
+        }));
+    }
 
     return (
         <>
@@ -83,7 +96,10 @@ export default function Product(): React.ReactElement {
                                                 Out of Stock
                                             </button>
                                         ) : session ? (
-                                            <button className='bg-green-500 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
+                                            <button
+                                                onClick={() => handleAddToCart(item)}
+                                                className='bg-green-500 px-10 py-3 font-bold shadow-lg rounded-lg cursor-pointer'
+                                            >
                                                 Add to Cart
                                             </button>
                                         ) : (

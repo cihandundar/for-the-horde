@@ -22,7 +22,7 @@ const Navbar = (): React.ReactElement => {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
     const cartItems = useSelector((state: RootState) => state.cart.items);
-    const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const cartCount = cartItems.filter(item => item.quantity > 0).length;
 
     const routes: Route[] = [
         { name: "Home", href: session ? "/home" : "/", isVisible: true },
