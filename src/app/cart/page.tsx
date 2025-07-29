@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaRegTrashAlt, FaCartArrowDown } from "react-icons/fa";
 import SpinWheel from "@/components/spin-wheel/SpinWheel";
 import { useState } from "react";
+
 interface ApiCartItem {
     id: string;
     source: "api";

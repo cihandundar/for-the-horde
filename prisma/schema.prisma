@@ -14,30 +14,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id String @db.ObjectId() @default(auto()) @map("_id") @id
-  email String
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId()
+  email          String   @unique
   hashedPassword String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Profile information (optional - can be filled later)
+  name         String?
+  surname      String?
+  phone        String?
+  dateOfBirth  DateTime?
+  gender       String?
+  address      String?
+  city         String?
+  country      String?
+  postalCode   String?
+  profileImage String?
+  bio          String?
+
+  // Profile completion tracking
+  profilePercent Int @default(0)
+
+  // Relations
+  orders Order[]
+}
+
+model Order {
+  id     String   @id @default(cuid()) @map("_id")
+  date   DateTime
+  total  Float
+  userId String
+  user   User     @relation(fields: [userId], references: [id])
 }
 
 model Blogs {
-  id        String   @db.ObjectId() @default(auto()) @map("_id") @id
-  title     String
-  content   String
-  author    String
-  imageUrl  String
-  tags      String[]
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId()
+  title    String
+  content  String
+  author   String
+  imageUrl String
+  tags     String[]
 }
 
 model Products {
-  id          String   @db.ObjectId() @id @map("_id") @default(auto())
+  id          String @id @default(auto()) @map("_id") @db.ObjectId()
   name        String
   brand       String
   category    String
-  categoryId  String   @map("category_id")
+  categoryId  String @map("category_id")
   sku         String
   price       Float
   currency    String
@@ -46,16 +72,16 @@ model Products {
   features    Json?
   images      Json?
   ratings     Json?
-  createdAt   String 
+  createdAt   String
 }
 
 model Brands {
-  id   String @db.ObjectId() @default(auto()) @map("_id") @id
-  name String
-  logoUrl  String
+  id      String @id @default(auto()) @map("_id") @db.ObjectId()
+  name    String
+  logoUrl String
 }
 
 model Categories {
-  id   String @db.ObjectId() @default(auto()) @map("_id") @id
+  id   String @id @default(auto()) @map("_id") @db.ObjectId()
   name String
 }

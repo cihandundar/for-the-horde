@@ -2,15 +2,16 @@ import React, { ChangeEvent } from 'react'
 
 interface InputProps {
     value: string
-    onChange: (value: ChangeEvent<HTMLInputElement>) => void
+    onChange: (value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
     disabled?: boolean
     type?: string
     label?: string
+    name?: string
 }
 
 
 export default function Input({
-    value, onChange, disabled, type = "text", label
+    value, onChange, disabled, type = "text", label, name
 }: InputProps) {
     return (
         <div className="relative w-full">
@@ -19,8 +20,9 @@ export default function Input({
                 onChange={onChange}
                 type={type}
                 disabled={disabled}
+                name={name}
                 required
-                placeholder=" "
+                placeholder=""
                 className="outline-none p-4 border-2 border-neutral-300 w-full rounded-md peer focus:border-neutral-900"
             />
             <label
