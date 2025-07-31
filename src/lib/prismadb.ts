@@ -9,3 +9,11 @@ if (!globalForPrisma.prisma) {
 }
 
 export default prisma;
+
+// Blog verisini id ile çekmek için fonksiyon:
+export async function getBlogById(id: string) {
+  const blog = await prisma.blogs.findUnique({
+    where: { id },
+  });
+  return blog;
+}
