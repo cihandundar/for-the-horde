@@ -58,7 +58,7 @@ export default function CartPage() {
                         {apiItems.map((item) => (
                             <div key={item.id} className="flex md:flex-row flex-col items-center md:justify-between justify-center p-4 shadow-lg rounded-lg">
                                 <img src={item.coverImage} alt={item.title} className="w-28 h-28 object-contain rounded-md" />
-                                <div className="flex-1 px-4">
+                                <div className="flex flex-col items-center text-center px-4">
                                     <div className="text-xl font-thin">{item.name}</div>
                                     <div className="text-lg mt-1">
                                         {typeof item.isPriceRange === "number"
@@ -67,13 +67,13 @@ export default function CartPage() {
                                     </div>
                                     <button
                                         onClick={() => dispatch(removeFromCart(item.id))}
-                                        className="bg-red-500 text-white px-3 py-2 rounded-lg cursor-pointer"
+                                        className="bg-red-500 text-white px-3 py-2 my-2 rounded-lg cursor-pointer"
                                         aria-label={`Remove ${item.name} from cart`}
                                     >
                                         <FaRegTrashAlt />
                                     </button>
                                 </div>
-                                <div className="flex items-center gap-2 mr-3">
+                                <div className="flex items-center gap-2 md:mr-3 mr-0">
                                     <button
                                         onClick={() => dispatch(decreaseQuantity(item.id))}
                                         className="bg-gray-300 px-3 py-1 rounded cursor-pointer"

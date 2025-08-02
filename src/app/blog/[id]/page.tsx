@@ -9,7 +9,7 @@ interface Props {
 export default async function BlogDetail({ params }: Props) {
     const blog = await getBlogById(params.id);
 
-    if (!blog) return <div>Blog bulunamadı</div>;
+    if (!blog) return <div>Blog not found</div>;
 
     return (
         <>

@@ -1,49 +1,55 @@
 @import "tailwindcss";
 
 
-.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
-    color: white;
-    background-color: black;
-    border-radius: 4px;
-    padding: 15px;
-    font-size: 20px !important;
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+  color: white;
+  background-color: black;
+  border-radius: 4px;
+  padding: 15px;
+  font-size: 20px !important;
 }
 
-.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
-    color: white;
-    background-color: black;
-    border-radius: 4px;
-    padding: 15px;
-    font-size: 20px !important;
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+  color: white;
+  background-color: black;
+  border-radius: 4px;
+  padding: 15px;
+  font-size: 20px !important;
 }
 
 @media (max-width:768px) {
-    .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
-        display: none;
-}
 
-.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+  .swiper-button-prev:after,
+  .swiper-rtl .swiper-button-next:after {
     display: none;
-}
+  }
+
+  .swiper-button-next:after,
+  .swiper-rtl .swiper-button-prev:after {
+    display: none;
+  }
 }
 
 
-.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet, .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet{
-    padding: 8px;
-    background-color: black;
+.swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+  padding: 8px;
+  background-color: black;
 }
 
 
 .swiper-pagination-bullet {
-    border-radius: var(--swiper-pagination-bullet-border-radius, 20%) !important;
+  border-radius: var(--swiper-pagination-bullet-border-radius, 20%) !important;
 }
 
 .swiper {
-    padding: 60px 0 !important;
+  padding: 60px 0 !important;
 }
 
 .heroSlider {
-    padding: 0 0 60px 0 !important;
+  padding: 0 0 60px 0 !important;
 }
 
 
@@ -57,8 +63,9 @@
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
+
 .loader::after {
-  content: '';  
+  content: '';
   box-sizing: border-box;
   position: absolute;
   left: 50%;
@@ -69,7 +76,114 @@
   border-radius: 50%;
   background: #263238;
 }
+
 @keyframes rotation {
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg)}
-} 
+  0% {
+    transform: rotate(0deg)
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+/* Sprite Sheet Heart Animation */
+.heart-sprite {
+  width: 100px;
+  height: 100px;
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
+  background-position: 0 0;
+  cursor: pointer;
+  transition: background-position 1s steps(28);
+  transition-duration: 0s;
+  z-index: 1;
+}
+
+.heart-sprite.is-active {
+  transition-duration: 1s;
+  background-position: -2800px 0;
+}
+
+.heart-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.heart-burst::before,
+.heart-burst::after {
+  content: '❤';
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ff4757;
+  font-size: 20px;
+  animation: burst 0.8s ease-out forwards;
+}
+
+.heart-burst::after {
+  animation-delay: 0.1s;
+  color: #ff6b7a;
+}
+
+@keyframes burst {
+  0% {
+    opacity: 1;
+    transform: scale(0) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.5) rotate(180deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2) rotate(360deg);
+  }
+}
+
+/* Particle Effect */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ff4757;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle 1s ease-out forwards;
+}
+
+@keyframes particle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) scale(0);
+  }
+}
+
+/* Scale animation for favorite button */
+.favorite-scale {
+  animation: favoriteScale 0.3s ease-in-out;
+}
+
+@keyframes favoriteScale {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

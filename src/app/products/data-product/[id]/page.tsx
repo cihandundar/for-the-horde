@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomProductById } from "@/redux/features/customProductSlice";
 import { RootState, AppDispatch } from "@/redux/store";
 import { useParams } from "next/navigation";
 import StarRating from "@/components/rating/StarRating";
 import { addToCart } from "@/redux/features/cardSlice";
-
+import { toggleFavorite } from "@/redux/features/favoriteSlice";
 
 interface ProductFeatures {
     color: string;
@@ -17,12 +17,10 @@ interface ProductFeatures {
     release_year: string;
 }
 
-
 interface ProductRatings {
     average: number;
     count: number;
 }
-
 
 interface Product {
     id: string;
@@ -36,12 +34,12 @@ interface Product {
     ratings: ProductRatings;
 }
 
-
 export default function CustomProductDetail(): React.ReactElement {
     const params = useParams();
     const id = params?.id as string | undefined;
 
     const dispatch = useDispatch<AppDispatch>();
+    const [activeHearts, setActiveHearts] = useState<{ [key: string]: boolean }>({});
 
     const { selectedProduct, loading, error } = useSelector(
         (state: RootState) => state.customproducts
@@ -63,29 +61,54 @@ export default function CustomProductDetail(): React.ReactElement {
     if (error) return <p>Error: {error}</p>;
     if (!selectedProduct) return <p>Product not found</p>;
 
-    const product: Product = selectedProduct as Product;
+    const product: Product = selectedProduct as unknown as Product;
 
     const handleAddToCart = (product: Product) => {
-        dispatch(addToCart({
-            id: product.id || product._id,
-            name: product.name,
-            price: product.price,
-            image: product.images?.[0],
-            quantity: 1,
-            source: "mongo"
-        }))
-    }
+        dispatch(
+            addToCart({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.images?.[0],
+                quantity: 1,
+                source: "mongo",
+            })
+        );
+    };
+
+    const handleToggleFavorite = (product: Product) => {
+        const productId = product.id;
+        setActiveHearts((prev) => ({
+            ...prev,
+            [productId]: !prev[productId],
+        }));
+
+        dispatch(
+            toggleFavorite({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.images?.[0] || "",
+                description: product.name,
+                slug: product.id,
+            })
+        );
+    };
+
+    const isActive = activeHearts[product.id];
+
     return (
         <section className="bg-white py-[75px]">
             <div className="container max-w-screen-xl mx-auto">
                 {error && <p>Error: {error}</p>}
+
                 <div className="flex md:flex-row flex-col items-center gap-10">
                     <img
                         className="shadow-2xl rounded-lg"
                         src={product.images[0]}
                         alt={product.name}
                     />
-                    <div className="flex flex-col shadow-2xl p-10 rounded-2xl">
+                    <div className="flex flex-col shadow-2xl p-10 rounded-2xl relative">
                         <div className="text-4xl font-bold">{product.name}</div>
                         <div className="font-thin mb-2 text-xl">{product.brand}</div>
                         <div className="flex items-center gap-2 mb-3">
@@ -126,12 +149,22 @@ export default function CustomProductDetail(): React.ReactElement {
                                 currency: "USD",
                             }).format(product.price)}
                         </div>
-                        <button
-                            onClick={() => handleAddToCart(product)}
-                            className='bg-green-500 px-10 py-3 font-bold shadow-lg rounded-lg cursor-pointer'
-                        >
-                            Add to Cart
-                        </button>
+                        <div className="flex w-full items-center">
+                            <button
+                                onClick={() => handleAddToCart(product)}
+                                className="w-full bg-green-500 py-3 font-bold shadow-lg rounded-lg cursor-pointer hover:bg-green-600 transition-colors duration-300"
+                            >
+                                Add to Cart
+                            </button>
+                            <div
+                                className={`heart-sprite ${isActive ? "is-active" : ""}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleToggleFavorite(product);
+                                }}
+                            ></div>
+                        </div>
                     </div>
                 </div>
             </div>

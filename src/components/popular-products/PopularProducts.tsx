@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { AppDispatch, RootState } from '@/redux/store'
@@ -10,6 +10,7 @@ import Link from 'next/link'
 import StarRating from '../rating/StarRating'
 import { useSession } from 'next-auth/react'
 import { addToCart } from '@/redux/features/cardSlice'
+import { toggleFavorite } from '@/redux/features/favoriteSlice'
 
 interface Product {
     _id: string
@@ -30,6 +31,7 @@ interface Product {
 export default function PopularProducts(): React.ReactElement {
     const dispatch = useDispatch<AppDispatch>()
     const { data: session } = useSession()
+    const [activeHearts, setActiveHearts] = useState<{ [key: string]: boolean }>({})
 
     const products = useSelector((state: RootState) => state.products.products) as Product[]
     const loading = useSelector((state: RootState) => state.products.loading)
@@ -48,7 +50,25 @@ export default function PopularProducts(): React.ReactElement {
             name: product.name,
             isPriceRange: typeof product.isPriceRange === 'number' ? product.isPriceRange : parseFloat(product.isPriceRange),
             quantity: 1,
+        }))
+    }
+
+    const handleToggleFavorite = (product: Product) => {
+        const productId = product.slug;
+
+        setActiveHearts(prev => ({
+            ...prev,
+            [productId]: !prev[productId],
         }));
+
+        dispatch(toggleFavorite({
+            id: product.slug,
+            name: product.name,
+            price: typeof product.isPriceRange === 'number' ? product.isPriceRange : parseFloat(product.isPriceRange),
+            image: product.coverImage,
+            description: product.description,
+            slug: product.slug
+        }))
     }
 
     return (
@@ -78,50 +98,65 @@ export default function PopularProducts(): React.ReactElement {
                                 1024: { slidesPerView: 4 },
                             }}
                         >
-                            {products?.map((item) => (
-                                <SwiperSlide key={item?.slug}>
-                                    <div className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 border-1 border-gray-300'>
-                                        <Link href={`/products/${item?.slug}`} className='w-full flex flex-col items-center'>
-                                            <Image src={item?.coverImage} alt={item?.name} width={250} height={250} className='pb-3' />
-                                        </Link>
-                                        <div className="pl-5 w-full">
-                                            <div className="text-xl font-thin ">{item?.title}</div>
-                                            <div className="font-bold ">{item?.name}</div>
-                                            <div className='flex items-center gap-2'>
-                                                <StarRating rating={item?.rating} />
-                                                <span className='font-bold'>{item?.rating}</span>
-                                            </div>
-                                            <div className='py-2'>
-                                                {typeof item?.isPriceRange === 'number'
-                                                    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })?.format(item.isPriceRange)
-                                                    : item?.isPriceRange}
-                                            </div>
-                                            <div className={`font-semibold pb-2 ${item?.inStock ? 'text-green-600' : 'text-red-600'}`}>
-                                                {item?.inStock ? 'In Stock' : 'Out of Stock'}
-                                            </div>
+                            {products?.map((item) => {
+                                const isActive = activeHearts[item.slug];
+                                return (
+                                    <SwiperSlide key={item.slug}>
+                                        <div className='flex flex-col md:items-start items-center justify-center shadow-lg rounded-lg py-5 border border-gray-300 relative'>
 
-                                            {!item?.inStock ? (
-                                                <button className='bg-gray-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-not-allowed'>
-                                                    Out of Stock
-                                                </button>
-                                            ) : session ? (
-                                                <button
-                                                    onClick={() => handleAddToCart(item)}
-                                                    className='bg-green-500 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'
-                                                >
-                                                    Add to Cart
-                                                </button>
-                                            ) : (
-                                                <Link href={`/products/${item.slug}`}>
-                                                    <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
-                                                        View Details
+                                            <Link href={`/products/${item.slug}`} className='w-full flex flex-col items-center'>
+                                                <Image src={item.coverImage} alt={item.name} width={250} height={250} className='pb-3' />
+                                            </Link>
+                                            <div className="pl-5 w-full">
+                                                <div className="text-xl font-thin">{item.title}</div>
+                                                <div className="font-bold">{item.name}</div>
+                                                <div className='flex items-center gap-2'>
+                                                    <StarRating rating={item.rating} />
+                                                    <span className='font-bold'>{item.rating}</span>
+                                                </div>
+                                                <div className='py-2'>
+                                                    {typeof item.isPriceRange === 'number'
+                                                        ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.isPriceRange)
+                                                        : item.isPriceRange}
+                                                </div>
+                                                <div className={`font-semibold pb-2 ${item.inStock ? 'text-green-600' : 'text-red-600'}`}>
+                                                    {item.inStock ? 'In Stock' : 'Out of Stock'}
+                                                </div>
+
+                                                {!item.inStock ? (
+                                                    <button className='bg-gray-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-not-allowed'>
+                                                        Out of Stock
                                                     </button>
-                                                </Link>
-                                            )}
+                                                ) : session ? (
+                                                    <div className="flex w-full items-center gap-3">
+
+                                                        <button
+                                                            onClick={() => handleAddToCart(item)}
+                                                            className='w-full bg-green-500 py-3 font-bold shadow-lg rounded-lg cursor-pointer hover:bg-green-600 transition-colors duration-300'
+                                                        >
+                                                            Add to Cart
+                                                        </button>
+                                                        <div
+                                                            className={`heart-sprite ${isActive ? 'is-active' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.preventDefault()
+                                                                e.stopPropagation()
+                                                                handleToggleFavorite(item)
+                                                            }}
+                                                        ></div>
+                                                    </div>
+                                                ) : (
+                                                    <Link href={`/products/${item.slug}`}>
+                                                        <button className='bg-blue-400 px-10 py-2 font-bold shadow-lg rounded-lg cursor-pointer'>
+                                                            View Details
+                                                        </button>
+                                                    </Link>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                            ))}
+                                    </SwiperSlide>
+                                );
+                            })}
                         </Swiper>
                     )}
                 </>

@@ -19,6 +19,7 @@ import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import { addToCart } from '@/redux/features/cardSlice'
+import { toggleFavorite } from '@/redux/features/favoriteSlice'
 
 type Specification = {
     icon: string
@@ -71,10 +72,11 @@ export default function ProductDetail() {
     const dispatch = useDispatch<AppDispatch>()
     const { slug } = useParams()
     const { data: session } = useSession()
-
+    const [activeHearts, setActiveHearts] = useState<{ [key: string]: boolean }>({});
     const product = useSelector((state: RootState) => state.products.currentProduct as Product | null)
     const loading = useSelector((state: RootState) => state.products.loading)
     const error = useSelector((state: RootState) => state.products.error)
+
 
     useEffect(() => {
         if (slug) {
@@ -98,6 +100,25 @@ export default function ProductDetail() {
             quantity: 1,
         }));
     }
+
+    const handleToggleFavorite = (product: Product) => {
+        const productId = product.slug;
+        setActiveHearts((prev) => ({
+            ...prev,
+            [productId]: !prev[productId],
+        }));
+
+        dispatch(toggleFavorite({
+            id: product.slug,
+            name: product.name,
+            price: product.isPriceRange,
+            image: product.images?.[0] || '',
+            description: product.description,
+            slug: product.slug
+        }));
+    }
+
+    const isActive = activeHearts[product.slug];
     return (
         <>
             <Breadcrumb />
@@ -147,7 +168,9 @@ export default function ProductDetail() {
                     </div>
 
                     <div className="flex flex-col justify-center">
-                        <div className="shadow-2xl p-10 rounded-2xl">
+                        <div className="shadow-2xl p-10 rounded-2xl relative">
+
+
                             <div className="text-4xl font-semibold mb-2">{product.name}</div>
                             <div className="text-xl  mb-4">{product.title}</div>
 
@@ -198,12 +221,22 @@ export default function ProductDetail() {
                                     Out of Stock
                                 </button>
                             ) : session ? (
-                                <button
-                                    onClick={() => handleAddToCart(product)}
-                                    className='bg-green-500 px-10 py-3 font-bold shadow-lg rounded-lg cursor-pointer'
-                                >
-                                    Add to Cart
-                                </button>
+                                <div className="flex w-full items-center">
+                                    <button
+                                        onClick={() => handleAddToCart(product)}
+                                        className="w-full bg-green-500 py-3 font-bold shadow-lg rounded-lg cursor-pointer hover:bg-green-600 transition-colors duration-300"
+                                    >
+                                        Add to Cart
+                                    </button>
+                                    <div
+                                        className={`heart-sprite ${isActive ? "is-active" : ""}`}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleToggleFavorite(product);
+                                        }}
+                                    ></div>
+                                </div>
                             ) : (
                                 <Link href="/signin">
                                     <button className="cursor-pointer bg-blue-500 text-white w-full py-3 font-bold shadow-lg rounded-lg hover:bg-blue-600 transition">

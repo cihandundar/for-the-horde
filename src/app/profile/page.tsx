@@ -2,9 +2,105 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/redux/store";
 
 import Input from "@/components/input/Input";
 import ProfileImageUpload from "@/components/profile/ProfileImageUpload";
+import { removeFromFavorites } from "@/redux/features/favoriteSlice";
+import { addToCart } from "@/redux/features/cardSlice";
+
+
+const FavoriteProducts = () => {
+    const favorites = useSelector((state: RootState) => state.favorites.favorites);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleRemoveFromFavorites = (productId: string) => {
+        dispatch(removeFromFavorites(productId));
+    };
+
+    const handleAddToCart = (product: any) => {
+        if (product.source === "mongo") {
+            dispatch(addToCart({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1,
+                source: "mongo"
+            }));
+        } else {
+            // api için
+            dispatch(addToCart({
+                id: product.id,
+                name: product.name,
+                coverImage: product.coverImage,
+                title: product.title || product.name,
+                isPriceRange: product.isPriceRange || product.price || 0,
+                quantity: 1,
+                source: "api"
+            }));
+        }
+    };
+
+
+    if (favorites.length === 0) {
+        return (
+            <div className="bg-white shadow-lg rounded-xl p-6">
+                <h3 className="text-xl font-semibold mb-4">Favorite Products</h3>
+                <div className="text-center py-8">
+                    <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <p className="text-gray-500 text-lg">You dont have any favorite products yet</p>
+                    <p className="text-gray-400 text-sm mt-2">Add products you like to favorites to see them here</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="bg-white shadow-lg rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-6">Favorite Products ({favorites.length})</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {favorites.map((product) => (
+                    <div key={product.id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div className="relative">
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-48 object-contain"
+                            />
+                            <div className="absolute top-2 right-0">
+                                <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h4 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h4>
+                        <p className="text-blue-600 font-bold">${product.price}</p>
+                        <div className="mt-3 flex gap-2">
+                            <button
+                                onClick={() => handleAddToCart(product)}
+                                className="flex-1 cursor-pointer bg-blue-600 text-white py-2 px-3 rounded-lg text-sm hover:bg-blue-700 transition-colors"
+                            >
+                                Add to Cart
+                            </button>
+                            <button
+                                onClick={() => handleRemoveFromFavorites(product.id)}
+                                className=" cursor-pointer bg-red-500 text-white py-2 px-3 rounded-lg text-sm hover:bg-red-600 transition-colors"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 interface UserProfile {
     id: string;
@@ -361,6 +457,8 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </div>
+
+            <FavoriteProducts />
         </section>
     );
 }
