@@ -55,6 +55,7 @@ type ProductProperties = {
 }
 
 type Product = {
+    slug: string
     title: string
     name: string
     description: string
@@ -65,6 +66,7 @@ type Product = {
     inStock: boolean
     variantList?: Variant[]
     properties?: ProductProperties
+    coverImage: string
 }
 
 export default function ProductDetail() {
