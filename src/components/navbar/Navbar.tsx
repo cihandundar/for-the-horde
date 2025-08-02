@@ -182,7 +182,7 @@ const Navbar = (): React.ReactElement => {
 
                     {/* MOBILE NAVIGATION */}
                     <nav
-                        className={`md:hidden absolute left-0 right-0 bg-gray-100 shadow-lg transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                        className={`md:hidden absolute left-0 right-0 bg-gray-100 shadow-lg transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "hidden"
                             }`}
                     >
                         <div className="container max-w-screen-xl mx-auto p-4">
