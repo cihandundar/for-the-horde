@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
     try {
-        const blogs = await prisma.Blogs.findMany()
+        const blogs = await prisma.blogs.findMany()
         return NextResponse.json({ blogs }, { status: 200 })
     } catch (error) {
         console.error("🔥 API HATASI DETAY:", error)
