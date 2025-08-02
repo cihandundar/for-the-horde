@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { AppDispatch, RootState } from '@/redux/store'
-import { fetchProducts } from '@/redux/features/productSlice'
+import { fetchProducts, Product } from '@/redux/features/productSlice'
 import Image from 'next/image'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import Link from 'next/link'
@@ -11,22 +11,6 @@ import StarRating from '../rating/StarRating'
 import { useSession } from 'next-auth/react'
 import { addToCart } from '@/redux/features/cardSlice'
 import { toggleFavorite } from '@/redux/features/favoriteSlice'
-
-interface Product {
-    _id: string
-    id: string
-    title: string
-    name: string
-    wasPriceRange: number
-    isPriceRange: number | string
-    description: string
-    coverImage: string
-    images: string[]
-    inStock: boolean
-    slug: string
-    rating: number
-    ratingCount: number
-}
 
 export default function PopularProducts(): React.ReactElement {
     const dispatch = useDispatch<AppDispatch>()

@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-07-30.basil',
-});
+
 
 export async function POST(request: NextRequest) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-07-30.basil',
+  });
   try {
     const { amount, currency = 'usd', description = 'Payment', items } = await request.json();
 
@@ -42,14 +43,14 @@ export async function POST(request: NextRequest) {
         } else {
           unitAmount = Math.round(amount * 100);
         }
-        
-        console.log('Processing item:', { 
-          name: item.name, 
-          price: item.price, 
+
+        console.log('Processing item:', {
+          name: item.name,
+          price: item.price,
           isPriceRange: item.isPriceRange,
-          unitAmount 
+          unitAmount
         });
-        
+
         return {
           price_data: {
             currency: currency,
@@ -82,25 +83,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ sessionId: session.id });
   } catch (error) {
     console.error('Stripe error details:', error);
-    
+
     // More detailed error handling
     let errorMessage = 'Failed to create payment session';
     let errorDetails = 'Unknown error';
-    
+
     if (error instanceof Error) {
       errorMessage = error.message;
       errorDetails = error.stack || 'No stack trace';
     } else if (typeof error === 'object' && error !== null) {
       errorDetails = JSON.stringify(error);
     }
-    
+
     console.error('Full error object:', error);
     console.error('Error message:', errorMessage);
     console.error('Error details:', errorDetails);
-    
+
     return NextResponse.json(
-      { 
-        error: errorMessage, 
+      {
+        error: errorMessage,
         details: errorDetails,
         timestamp: new Date().toISOString()
       },

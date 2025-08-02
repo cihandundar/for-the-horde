@@ -1,16 +1,12 @@
 "use client"
-import { fetchBrand } from '@/redux/features/brandSlice'
+import { Brand, fetchBrand } from '@/redux/features/brandSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 
 
-interface Brand {
-    _id: string
-    name: string
-    logoUrl: string
-}
+
 
 export default function Brands(): React.ReactElement {
 

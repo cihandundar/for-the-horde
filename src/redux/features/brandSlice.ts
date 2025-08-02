@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
 
-interface Brand {
+export interface Brand {
     _id: string
     name: string
     logoUrl: string

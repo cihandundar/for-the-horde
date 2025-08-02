@@ -1,5 +1,5 @@
 "use client"
-import { fetchBlogs } from '@/redux/features/blogSlice'
+import { Blog, fetchBlogs } from '@/redux/features/blogSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,15 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { CiUser } from "react-icons/ci";
 
 
-interface Blog {
-    _id: string
-    id: string
-    title: string
-    content: string
-    author: string
-    imageUrl: string
-    tags: string[]
-}
+
 
 export default function Blogs(): React.ReactElement {
     const dispatch = useDispatch<AppDispatch>()

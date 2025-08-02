@@ -19,7 +19,7 @@ export interface CustomProduct {
     description: string;
     features: string[];
     images: string[];
-    ratings: Ratings; // string[] yerine obje
+    ratings: Ratings;
     createdAt: string;
 }
 

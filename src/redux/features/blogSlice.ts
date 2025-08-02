@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
 
-interface Blog {
+export interface Blog {
     _id: string
     id: string
     title: string
