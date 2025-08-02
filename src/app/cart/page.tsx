@@ -34,7 +34,7 @@ export default function CartPage() {
     const dispatch = useDispatch<AppDispatch>();
     const cartItems = useSelector<RootState, CartItem[]>((state) => state.cart.items);
     const { subtotal, discountAmount, taxAmount, total, shipping } = useSelector(selectCartSummary);
-    const [showSpinWheel, setShowSpinWheel] = useState(true);
+
     const shippingOptions = useSelector((state: RootState) => state.cart.shippingOptions);
     const selectedShippingId = useSelector((state: RootState) => state.cart.selectedShippingId);
 
@@ -130,7 +130,7 @@ export default function CartPage() {
 
                     <div className="md:col-span-4 col-span-12 p-5 bg-white rounded-lg shadow-lg flex flex-col gap-3">
                         <div className="text-xl font-bold mb-3">Order Summary</div>
-                        {showSpinWheel && <SpinWheel onClose={() => setShowSpinWheel(false)} />}
+                        <SpinWheel />
                         <select
                             id="shippingMethod"
                             className="w-full border border-gray-300 rounded p-2 cursor-pointer"

@@ -62,11 +62,14 @@ const saveToLocalStorage = (items: CartItem[]) => {
 };
 
 const validCoupons: Record<string, number> = {
-    "WELCOME10": 10,
-    "VIP20": 20,
+
     "SPIN5": 5,
-    "REACT19": 30,
-    "NEXT14": 15,
+    "SPIN10": 10,
+    "SPIN15": 15,
+    "SPIN20": 20,
+    "SPIN25": 25,
+    "SPIN30": 30,
+
 };
 
 const cartSlice = createSlice({
