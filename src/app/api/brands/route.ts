@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
     try {
-        const brands = await prisma.Brands.findMany()
+        const brands = await prisma.brands.findMany()
         return NextResponse.json({ brands }, { status: 200 })
     } catch (error) {
         console.error("API HATASI:", error)
