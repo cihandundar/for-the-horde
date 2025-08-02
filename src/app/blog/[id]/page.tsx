@@ -3,10 +3,11 @@ import React from 'react'
 import { getBlogById } from '@/lib/prismadb' // yukarıdaki fonksiyon
 
 interface Props {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }
 
-export default async function BlogDetail({ params }: Props) {
+export default async function BlogDetail(props: Props) {
+    const params = await props.params;
     const blog = await getBlogById(params.id);
 
     if (!blog) return <div>Blog not found</div>;
