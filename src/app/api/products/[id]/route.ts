@@ -1,11 +1,10 @@
 import { prisma } from "@/lib/prismadb";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-interface Params {
-    params: { id: string };
-}
-
-export async function GET(req: Request, { params }: Params) {
+export async function GET(
+    req: NextRequest,
+    { params }: { params: { id: string } }
+) {
     try {
         const product = await prisma.Products.findUnique({
             where: {
