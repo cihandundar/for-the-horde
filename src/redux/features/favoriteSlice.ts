@@ -6,8 +6,10 @@ interface Product {
     name: string;
     price: number;
     image: string;
+    coverImage?: string; // API ürünleri için
     description?: string;
     slug?: string;
+    source?: "api" | "mongo"; // Ürün kaynağını belirtmek için
 }
 
 interface FavoriteState {

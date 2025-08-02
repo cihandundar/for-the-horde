@@ -113,8 +113,10 @@ export default function ProductDetail() {
             name: product.name,
             price: product.isPriceRange,
             image: product.images?.[0] || '',
+            coverImage: product.images?.[0] || '',
             description: product.description,
-            slug: product.slug
+            slug: product.slug,
+            source: "api"
         }));
     }
 

@@ -34,7 +34,7 @@ const FavoriteProducts = () => {
             dispatch(addToCart({
                 id: product.id,
                 name: product.name,
-                coverImage: product.coverImage,
+                coverImage: product.coverImage || product.image,
                 title: product.title || product.name,
                 isPriceRange: product.isPriceRange || product.price || 0,
                 quantity: 1,
@@ -67,7 +67,7 @@ const FavoriteProducts = () => {
                     <div key={product.id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
                         <div className="relative">
                             <img
-                                src={product.image}
+                                src={product.coverImage || product.image}
                                 alt={product.name}
                                 className="w-full h-48 object-contain"
                             />

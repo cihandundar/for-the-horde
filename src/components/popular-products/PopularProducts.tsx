@@ -66,8 +66,10 @@ export default function PopularProducts(): React.ReactElement {
             name: product.name,
             price: typeof product.isPriceRange === 'number' ? product.isPriceRange : parseFloat(product.isPriceRange),
             image: product.coverImage,
+            coverImage: product.coverImage,
             description: product.description,
-            slug: product.slug
+            slug: product.slug,
+            source: "api"
         }))
     }
 

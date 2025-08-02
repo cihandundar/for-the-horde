@@ -65,7 +65,8 @@ export default function Products(): React.ReactElement {
             price: parseFloat(product.price),
             image: product.images?.[0] || '',
             description: product.description,
-            slug: product.id
+            slug: product.id,
+            source: "mongo"
         }))
     }
 

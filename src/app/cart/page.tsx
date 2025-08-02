@@ -58,7 +58,7 @@ export default function CartPage() {
                         {apiItems.map((item) => (
                             <div key={item.id} className="flex md:flex-row flex-col items-center md:justify-between justify-center p-4 shadow-lg rounded-lg">
                                 <img src={item.coverImage} alt={item.title} className="w-28 h-28 object-contain rounded-md" />
-                                <div className="flex flex-col items-center text-center px-4">
+                                <div className="flex-1 px-4">
                                     <div className="text-xl font-thin">{item.name}</div>
                                     <div className="text-lg mt-1">
                                         {typeof item.isPriceRange === "number"
