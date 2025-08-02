@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
@@ -32,7 +32,9 @@ export default function RootLayout({
           <NextAuthSessionProvider>
             <Navbar />
             <ToastProvider />
-            {children}
+            <Suspense fallback={<div>Loading...</div>}>
+              {children}
+            </Suspense>
           </NextAuthSessionProvider>
           <Cta />
           <Footer />

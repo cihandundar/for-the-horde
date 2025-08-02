@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -117,7 +117,6 @@ export default function SuccessPage() {
             </div>
           </div>
         </div>
-      </Suspense>
     </div>
   );
 } 
