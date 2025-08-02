@@ -1,21 +1,26 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios, { AxiosError } from 'axios'
 
-interface CustomProduct {
-    _id: string
-    id: string
-    name: string
-    category: string
-    categoryId: string
-    sku: string
-    price: string
-    currency: string
-    stock: number
-    description: string
-    features: string[]
-    images: string[]
-    ratings: string[]
-    createdAt: string
+export interface Ratings {
+    average: number;
+    count: number;
+}
+
+export interface CustomProduct {
+    _id: string;
+    id: string;
+    name: string;
+    category: string;
+    categoryId: string;
+    sku: string;
+    price: string;
+    currency: string;
+    stock: number;
+    description: string;
+    features: string[];
+    images: string[];
+    ratings: Ratings; // string[] yerine obje
+    createdAt: string;
 }
 
 interface CustomProductState {

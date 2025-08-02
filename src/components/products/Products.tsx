@@ -1,6 +1,6 @@
 "use client"
 
-import { fetchCustomProducts } from '@/redux/features/customProductSlice'
+import { CustomProduct, fetchCustomProducts } from '@/redux/features/customProductSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,22 +9,6 @@ import Link from 'next/link'
 import { addToCart } from '@/redux/features/cardSlice'
 import { toggleFavorite } from '@/redux/features/favoriteSlice'
 
-interface CustomProduct {
-    _id: string
-    id: string
-    name: string
-    category: string
-    categoryId: string
-    sku: string
-    price: string
-    currency: string
-    stock: number
-    description: string
-    features: string[]
-    images: string[]
-    ratings: string[]
-    createdAt: string
-}
 
 export default function Products(): React.ReactElement {
 
