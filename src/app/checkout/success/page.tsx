@@ -63,60 +63,57 @@ export default function SuccessPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Suspense fallback={<div>Loading...</div>}>
-
-
-        <div className="max-w-md mx-auto">
-          <div className="bg-white shadow-lg rounded-lg p-6 text-center">
-            <div className="mb-6">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                <svg
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Payment Successful!
-            </h2>
-
-            <p className="text-gray-600 mb-6">
-              Your payment has been completed successfully. Thank you!
-            </p>
-
-            {sessionId && (
-              <p className="text-sm text-gray-500 mb-6">
-                Order ID: {sessionId.substring(0, 8)}****
-              </p>
-            )}
-
-            <div className="space-y-3">
-              <Link
-                href="/"
-                className="block w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      <div className="max-w-md mx-auto">
+        <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+          <div className="mb-6">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+              <svg
+                className="h-6 w-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Back to Home
-              </Link>
-
-              <Link
-                href="/profile"
-                className="block w-full bg-gray-200 text-gray-800 py-3 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              >
-                Go to Profile
-              </Link>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
             </div>
           </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Payment Successful!
+          </h2>
+
+          <p className="text-gray-600 mb-6">
+            Your payment has been completed successfully. Thank you!
+          </p>
+
+          {sessionId && (
+            <p className="text-sm text-gray-500 mb-6">
+              Order ID: {sessionId.substring(0, 8)}****
+            </p>
+          )}
+
+          <div className="space-y-3">
+            <Link
+              href="/"
+              className="block w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Back to Home
+            </Link>
+
+            <Link
+              href="/profile"
+              className="block w-full bg-gray-200 text-gray-800 py-3 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            >
+              Go to Profile
+            </Link>
+          </div>
         </div>
+      </div>
     </div>
   );
 } 
