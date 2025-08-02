@@ -11,6 +11,190 @@ import { removeFromFavorites } from "@/redux/features/favoriteSlice";
 import { addToCart } from "@/redux/features/cardSlice";
 
 
+const OrderHistory = () => {
+    const [orders, setOrders] = useState<any[]>([]);
+    const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+
+    useEffect(() => {
+        const savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+        console.log('Loaded orders:', savedOrders);
+        setOrders(savedOrders);
+    }, []);
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    const handleCancelOrder = (orderId: string) => {
+        const updatedOrders = orders.map(order => 
+            order.id === orderId 
+                ? { ...order, status: 'cancelled' }
+                : order
+        );
+        setOrders(updatedOrders);
+        localStorage.setItem('orders', JSON.stringify(updatedOrders));
+        setExpandedOrder(null);
+    };
+
+    const handleDeleteOrder = (orderId: string) => {
+        const updatedOrders = orders.filter(order => order.id !== orderId);
+        setOrders(updatedOrders);
+        localStorage.setItem('orders', JSON.stringify(updatedOrders));
+        setExpandedOrder(null);
+    };
+
+    const getFirstItemImage = (items: any[]) => {
+        console.log('Getting first item image for items:', items);
+        if (items && items.length > 0) {
+            const firstItem = items[0];
+            console.log('First item:', firstItem);
+            const imageUrl = firstItem.source === 'mongo' ? firstItem.image : (firstItem.coverImage || firstItem.image);
+            console.log('Image URL:', imageUrl);
+            return imageUrl;
+        }
+        return null;
+    };
+
+    const getFirstItemName = (items: any[]) => {
+        if (items && items.length > 0) {
+            const firstItem = items[0];
+            return firstItem.name;
+        }
+        return 'Product';
+    };
+
+    if (orders.length === 0) {
+        return (
+            <div className="bg-white shadow-lg rounded-xl p-6">
+                <h3 className="text-xl font-semibold mb-4">Order History</h3>
+                <div className="text-center py-8">
+                    <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <p className="text-gray-500 text-lg">You don't have any orders yet</p>
+                    <p className="text-gray-400 text-sm mt-2">Your order history will appear here after your first purchase</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="bg-white shadow-lg rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-6">Order History ({orders.length})</h3>
+            <div className="space-y-4">
+                {orders.map((order, index) => (
+                    <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        {/* Order Header */}
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                                {getFirstItemImage(order.items) ? (
+                                    <img
+                                        src={getFirstItemImage(order.items)}
+                                        alt={getFirstItemName(order.items)}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
+                            
+                            <div className="flex-1">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <p className="font-semibold text-gray-900">Order ID: {order.orderId}</p>
+                                        <p className="text-sm text-gray-500">Date: {formatDate(order.date)}</p>
+                                        <p className="text-sm text-gray-500">
+                                            {order.totalItems || 1} item(s) • ${order.amount?.toFixed(2) || '0.00'}
+                                        </p>
+                                    </div>
+                                    <div className="text-right">
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                            order.status === 'completed' 
+                                                ? 'bg-green-100 text-green-800' 
+                                                : order.status === 'cancelled'
+                                                ? 'bg-red-100 text-red-800'
+                                                : 'bg-yellow-100 text-yellow-800'
+                                        }`}>
+                                            {order.status}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Expand/Collapse Button */}
+                        <button
+                            onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
+                            className="w-full text-left text-blue-600 hover:text-blue-800 text-sm font-medium mb-3"
+                        >
+                            {expandedOrder === order.id ? 'Hide Details' : 'View Details'}
+                        </button>
+
+                        {/* Expanded Order Details */}
+                        {expandedOrder === order.id && (
+                            <div className="border-t border-gray-200 pt-4">
+                                <div className="space-y-3">
+                                    {order.items?.map((item: any, itemIndex: number) => (
+                                        <div key={itemIndex} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                            <div className="w-12 h-12 rounded overflow-hidden bg-white flex-shrink-0">
+                                                <img
+                                                    src={item.source === 'mongo' ? item.image : (item.coverImage || item.image)}
+                                                    alt={item.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-medium text-gray-900">{item.name}</p>
+                                                <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-semibold text-gray-900">
+                                                    ${((item.source === 'mongo' ? item.price : item.isPriceRange) * item.quantity).toFixed(2)}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                {/* Action Buttons */}
+                                <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+                                    {order.status === 'completed' && (
+                                        <button
+                                            onClick={() => handleCancelOrder(order.id)}
+                                            className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
+                                        >
+                                            Cancel Order
+                                        </button>
+                                    )}
+                                    
+                                    {order.status === 'cancelled' && (
+                                        <button
+                                            onClick={() => handleDeleteOrder(order.id)}
+                                            className="w-full bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors text-sm font-medium"
+                                        >
+                                            Delete Order
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const FavoriteProducts = () => {
     const favorites = useSelector((state: RootState) => state.favorites.favorites);
     const dispatch = useDispatch<AppDispatch>();
@@ -459,6 +643,7 @@ export default function ProfilePage() {
             </div>
 
             <FavoriteProducts />
+            <OrderHistory />
         </section>
     );
 }

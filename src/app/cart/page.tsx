@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaRegTrashAlt, FaCartArrowDown } from "react-icons/fa";
 import SpinWheel from "@/components/spin-wheel/SpinWheel";
 import { useState } from "react";
+import { initiatePayment, redirectToCheckout } from "@/lib/stripe";
 
 interface ApiCartItem {
     id: string;
@@ -38,8 +39,78 @@ export default function CartPage() {
     const shippingOptions = useSelector((state: RootState) => state.cart.shippingOptions);
     const selectedShippingId = useSelector((state: RootState) => state.cart.selectedShippingId);
 
+    const [loading, setLoading] = useState(false);
+
     const apiItems = cartItems.filter((item): item is ApiCartItem => item.source === "api");
     const mongoItems = cartItems.filter((item): item is MongoCartItem => item.source === "mongo");
+
+    const handleCheckout = async () => {
+        if (total <= 0) {
+            alert('Please add items to your cart before checkout');
+            return;
+        }
+
+        setLoading(true);
+        
+        try {
+            console.log('Starting checkout with total:', total);
+            console.log('Cart items:', cartItems);
+            console.log('API items count:', apiItems.length);
+            console.log('MongoDB items count:', mongoItems.length);
+            console.log('Selected shipping ID:', selectedShippingId);
+
+            // Create a description with cart items
+            const itemNames = cartItems.map(item => {
+                if ('title' in item) return item.title;
+                return item.name;
+            }).slice(0, 3);
+            const description = itemNames.length > 0 
+                ? `Order: ${itemNames.join(', ')}${cartItems.length > 3 ? ' and more...' : ''}`
+                : 'Cart Payment';
+
+            // Prepare cart items for Stripe
+            const stripeItems = cartItems.map(item => {
+                // Determine price based on item type
+                let price;
+                if ('price' in item) {
+                    // MongoDB item
+                    price = item.price;
+                } else if ('isPriceRange' in item) {
+                    // API item
+                    price = item.isPriceRange;
+                } else {
+                    console.error('Unknown item type:', item);
+                    price = 0;
+                }
+
+                return {
+                    name: 'title' in item ? item.title : item.name,
+                    price: price,
+                    quantity: item.quantity,
+                    image: 'image' in item ? item.image : item.coverImage,
+                };
+            });
+
+            console.log('Stripe items prepared:', stripeItems);
+
+            const sessionId = await initiatePayment(total, description, stripeItems);
+            console.log('Session ID received:', sessionId);
+            await redirectToCheckout(sessionId);
+        } catch (error) {
+            console.error('Checkout error details:', error);
+            let errorMessage = 'An error occurred during checkout. Please try again.';
+            
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            } else if (typeof error === 'object' && error !== null && 'details' in error) {
+                errorMessage = `Checkout error: ${(error as any).details}`;
+            }
+            
+            alert(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <section className="py-10 container max-w-screen-xl mx-auto">
@@ -170,7 +241,13 @@ export default function CartPage() {
                             <span>Total:</span>
                             <span>{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(total)}</span>
                         </div>
-                        <button className="mt-4 bg-green-500 text-white py-3 rounded-lg cursor-pointer">Proceed to Checkout</button>
+                        <button 
+                            onClick={handleCheckout}
+                            disabled={loading || total <= 0}
+                            className="mt-4 bg-green-500 text-white py-3 rounded-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-600"
+                        >
+                            {loading ? 'Processing...' : 'Proceed to Checkout'}
+                        </button>
                         {cartItems.length > 0 && (
                             <button
                                 onClick={() => dispatch(clearCart())}
