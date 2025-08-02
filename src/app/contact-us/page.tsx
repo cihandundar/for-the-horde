@@ -23,7 +23,49 @@ export default function ContactUs() {
                             </div>
                             <Input value={name} onChange={(e) => setName(e.target.value)} label="Name" />
                             <Input value={email} onChange={(e) => setEmail(e.target.value)} label="Email" />
-                            <Input value={message} onChange={(e) => setMessage(e.target.value)} label="Message" />
+                            <div className="relative w-full">
+                                <textarea
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    required
+                                    placeholder=""
+                                    rows={5}
+                                    className="outline-none p-4 border-2 border-neutral-300 w-full rounded-md peer focus:border-neutral-900"
+                                />
+                                <label
+                                    className="
+                                      capitalize
+                                      absolute
+                                      left-4
+                                      top-4
+                                      text-base
+                                      pointer-events-none
+                                      bg-white
+                                      px-1
+                                      transition-all
+                                      duration-200
+                                      ease-in-out
+                                      peer-placeholder-shown:top-4
+                                      peer-placeholder-shown:left-4
+                                      peer-placeholder-shown:text-base
+                                      peer-placeholder-shown:scale-100
+                                      peer-focus:-top-2
+                                      peer-focus:left-3
+                                      peer-focus:text-xs
+                                      peer-focus:scale-90
+                                      peer-focus:bg-white
+                                      peer-focus:px-1
+                                      peer-[&:not(:placeholder-shown)]:-top-2
+                                      peer-[&:not(:placeholder-shown)]:left-3
+                                      peer-[&:not(:placeholder-shown)]:text-xs
+                                      peer-[&:not(:placeholder-shown)]:scale-90
+                                      peer-[&:not(:placeholder-shown)]:bg-white
+                                      peer-[&:not(:placeholder-shown)]:px-1
+                                    "
+                                >
+                                    Message
+                                </label>
+                            </div>
                             <button className='bg-black py-3 text-white rounded-lg shadow-lg mb-3 cursor-pointer italic'>Send</button>
                         </form>
                     </div>
