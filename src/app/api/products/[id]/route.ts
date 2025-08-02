@@ -5,10 +5,11 @@ export const GET = async (
     req: NextRequest,
     { params }: { params: { id: string } }
 ) => {
+    const { id } = params;
     try {
         const product = await prisma.Products.findUnique({
             where: {
-                id: params.id,
+                id,
             },
         });
 
